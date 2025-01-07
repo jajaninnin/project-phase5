@@ -1,8 +1,16 @@
 import React from "react";
-import App from "./components/App";
 import "./index.css";
+// import ReactDOM from 'react-dom/client'
+import routes from "./components/Routes";
 import { createRoot } from "react-dom/client";
+import { RouterProvider } from "react-router-dom";
+import { UserProvider } from "./components/Adult";
 
-const container = document.getElementById("root");
-const root = createRoot(container);
-root.render(<App />);
+const root = createRoot(document.getElementById("root"));
+root.render(
+    <React.StrictMode>
+        <UserProvider>
+            <RouterProvider router={routes} />
+        </UserProvider>
+    </React.StrictMode>
+);
