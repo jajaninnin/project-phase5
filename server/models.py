@@ -4,19 +4,22 @@ from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.orm import validates
 from sqlalchemy.ext.associationproxy import association_proxy
 from werkzeug.security import generate_password_hash, check_password_hash
+from sqlalchemy.dialects.postgresql import ENUM
 
 from config import db
 
 # Models go here!
 class Adult(db.Model, SerializerMixin):
     __tablename__ = 'adults'
-    id = db.Column(db.Integer, primarykey=True)
+    id = db.Column(db.Integer, primary_key=True)
     firstname = db.Column(db.String, nullable=False)
     lastname = db.Column(db.String, nullable=False)
     age = db.Column(db.Integer, nullable=False)
     role = db.Column(db.String, nullable=False)
     username = db.Column(db.String, nullable=False, unique=True)
     _password_hash = db.Column(db.String, nullable=False)
+
+    serialize_rules = ('-familymember', )
 
     @validates('firstname')
     def validate_firstname(self, key, value):
@@ -30,10 +33,10 @@ class Adult(db.Model, SerializerMixin):
             raise ValueError('Adult must have a last name')
         return value
     
-    @validates('')
-    def validate_(self, key, value):
+    @validates('role')
+    def validate_role(self, key, value):
         if not value or (len(value) < 1):
-            raise ValueError('Adult must have')
+            raise ValueError('Adult must have role')
         return value
     
     @validates('age')
@@ -67,7 +70,8 @@ class Adult(db.Model, SerializerMixin):
 
 class Child(db.Model, SerializerMixin):
     __tablename__ = 'children'
-    id = db.Column(db.Integer, primarykey=True)
+    id = db.Column(db.Integer, primary_key=True)
+    image = db.Column(db.String, nullable=False)
     firstname = db.Column(db.String, nullable=False)
     lastname = db.Column(db.String, nullable=False)
     nickname = db.Column(db.String, nullable=False)
@@ -114,7 +118,7 @@ class Child(db.Model, SerializerMixin):
     
     @validates('birthday')
     def validate_birthdat(self, key, value):
-        if not value or (len(value) < 1):
+        if not value:
             raise ValueError('Child must have a birthday')
         return value
     
@@ -174,18 +178,36 @@ class Child(db.Model, SerializerMixin):
 
 class FamilyMember(db.Model, SerializerMixin):
     __tablename__ = 'familymembers'
-    id = db.Column(db.Integer, primarykey=True)
+    id = db.Column(db.Integer, primary_key=True)
+    family_id = db.Column(db.Integer, db.ForeignKey('families.id'), nullable=False)
+    member_id = db.Column(db.Integer, nullable=False)
+    member_type = db.Column(ENUM('adult', 'child', name='member_types'), nullable=False)
 
-    @validates('')
-    def validate_(self, key, value):
-        if not value or (len(value) < 1):
-            raise ValueError('')
-        return value
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'family_id': self.family_id,
+            'member_id': self.member_id,
+            'member_type': self.member_type,
+        }
 
 class Family(db.Model, SerializerMixin):
     __tablename__ = 'families'
-    id = db.Column(db.Integer, primarykey=True)
+    id = db.Column(db.Integer, primary_key=True)
     invite_code = db.Column(db.String, nullable=False, unique=True)
+
+    events = db.relationship('Event', back_populates='family', cascade='all, delete-orphan')
+
+    adults_member = db.relationship(
+        'Adult',
+        secondary='familymembers',
+        primaryjoin='foreign(FamilyMember.family_id)==Family.id',
+        secondaryjoin="and_(FamilyMember.member_type=='adult', foreign(FamilyMember.member_id)==Adult.id)",
+        backref=db.backref('familymembers_member', lazy='dynamic'),
+        lazy='dynamic'
+    )
+
+    serialize_rules = ('-events', )
 
     @validates('invite_code')
     def validate_invite_code(self, key, value):
@@ -195,10 +217,10 @@ class Family(db.Model, SerializerMixin):
 
 class File(db.Model, SerializerMixin):
     __tablename__ = 'files'
-    id = db.Column(db.Integer, primarykey=True)
+    id = db.Column(db.Integer, primary_key=True)
     filename = db.Column(db.String, nullable=False, unique=True)
     filedate = db.Column(db.Date, nullable=False)
-    child_id = db.Column(db.Integer, db.Foreignkey('child.id'))
+    child_id = db.Column(db.Integer, db.ForeignKey('children.id'))
 
     child = db.relationship('Child', back_populates='files')
 
@@ -216,13 +238,16 @@ class File(db.Model, SerializerMixin):
 
 class Event(db.Model, SerializerMixin):
     __tablename__ = 'events'
-    id = db.Column(db.Integer, primarykey=True)
+    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
     date = db.Column(db.Date, nullable=False)
     start_time = db.Column(db.Time, nullable=False)
     end_time = db.Column(db.Time, nullable=False)
     owner_id = db.Column(db.Integer, nullable=False)
     owner_type = db.Column(db.String, nullable=False)
+    family_id = db.Column(db.Integer, db.ForeignKey('families.id'))
+
+    family = db.relationship('Family', back_populates='events')
 
     @validates('name')
     def validate_name(self, key, value):

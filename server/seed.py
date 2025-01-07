@@ -2,6 +2,7 @@
 
 # Standard library imports
 from random import random, randint, choice as rc
+import random
 
 # Remote library imports
 from faker import Faker
@@ -41,25 +42,28 @@ with app.app_context():
     schoolnames = ['PS 1', 'PS2', 'Charter School', 'Daycare', 'None']
     favorites = ['fruits', 'toys', 'playing', 'playground', 'none']
     hates = ['darkness', 'car rides', 'sleeping alone', 'none']
+    schoollevels = ['daycare', 'kinder', 'nursery', 'grade 1', 'grade 2', 'grade 3',
+                    'grade 4', 'grade 5', 'grade 6', 'grade 7', 'grade 8', 'grade 9', 'grade 10', 'grade 11', 'grade 12']
     
     children = []
 
     for n in range(12):
         child = Child(
+            image=fake.word(),
             firstname=fake.first_name(),
             lastname=fake.last_name(),
             nickname=fake.first_name(),
             age=random.randint(18, 99),
             birthday=fake.date_of_birth(maximum_age=18),
-            meds=rc[medis],
-            topsize=rc[size],
-            pantssize=rc[size],
-            dresssize=rc[size],
-            shoesize=randint(1, 12),
-            schoollevel=randint(1, 12),
-            schoolname=rc[schoolnames],
-            favorites=rc[favorites],
-            hates=rc[hates]
+            meds=rc(medis),
+            topsize=rc(size),
+            pantssize=rc(size),
+            dresssize=rc(size),
+            shoesize=rc(size),
+            schoollevel=rc(schoollevels),
+            schoolname=rc(schoolnames),
+            favorites=rc(favorites),
+            hates=rc(hates)
         )
 
 if __name__ == '__main__':

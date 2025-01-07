@@ -38,7 +38,7 @@ class Signup(Resource):
                 return make_response({'error': 'Username already exists'}, 400)
 
             
-            user = Adult(username=username, password_hash=password, age=age, name=name)
+            user = Adult(username=username, password_hash=password, age=age, firstname=firstname, lastname=lastname, role=role)
 
             db.session.add(user)
             db.session.commit()
@@ -226,7 +226,7 @@ class FamiliesByUserId(Resource):
     def get(self, id):
         try:
             families = db.session.execute(db.select(Family).filter_by(user_id=id)).scalars()
-            list_family = [fam.to_dict() for fam in Families]
+            list_family = [fam.to_dict() for fam in families]
             return make_response(list_family)
         except Exception as e:
             print(f'error occured: {e}')
