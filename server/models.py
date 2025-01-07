@@ -194,6 +194,7 @@ class FamilyMember(db.Model, SerializerMixin):
 class Family(db.Model, SerializerMixin):
     __tablename__ = 'families'
     id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String, nullable=False)
     invite_code = db.Column(db.String, nullable=False, unique=True)
 
     events = db.relationship('Event', back_populates='family', cascade='all, delete-orphan')

@@ -47,7 +47,8 @@ function App() {
             setFiles:setFiles,
             family:family,
             setFamily:setFamily,
-            events:setEvents
+            events:events,
+            setEvents:setEvents,
           }}/>
         </div>
       <Footer />

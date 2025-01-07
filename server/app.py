@@ -64,7 +64,7 @@ api.add_resource(CheckSession, '/check')
 
 class Login(Resource):
     def post(self):
-        params = request.jso
+        params = request.json
         user = params.get('username')
         password = params.get('password')
 

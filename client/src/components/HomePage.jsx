@@ -5,8 +5,8 @@ function Home() {
     return (
         <div className="home">
             <section className="section-title">
-                <h1 className="title">Welcome to Parently</h1>
-                <h2 className="title-h2">your new co-parenting tool for easier parenting</h2>
+                <h1 className="title">Parently</h1>
+                <h2 className="title-h2">your new co-parenting tool</h2>
             </section>
             <section>
                 <h2 className="section-header">Parenting made easy</h2>
