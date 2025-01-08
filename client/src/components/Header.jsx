@@ -20,12 +20,11 @@ function Header() {
         })
     }, [setSignedIn, setUser])
 
-    function logout(e) {
-        e.preventdefault();
+    const logout = (e) => {
+        e.preventDefault();
         fetch('/logout', {
             method: 'DELETE'
         })
-        .then(() => {})
         .then(() => {
             setSignedIn(false);
             setUser(null)
