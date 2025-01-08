@@ -57,6 +57,7 @@ function NewChild({isEdit = false}) {
                 child.filter((chld) => chld?.id?.toString() !== childToEdit?.id?.toString()) 
                 : child;
             setChild([...oldchildren, newChild]);
+            navigate(`/children/${newChild.id}`);
         })
         .catch((error) => console.error("Error adding new child", error));
       };
@@ -87,264 +88,264 @@ function NewChild({isEdit = false}) {
             <div className="container">
                 <h2>{!!childToEdit ? 'Edit child:' : 'Add a new child:'}</h2>
                 <form onSubmit={handleSubmit}>
-                <div className="row">
-                    <div className="col-25">
-                        <label htmlFor="firstname">First Name</label>
+                    <div className="row">
+                        <div className="col-25">
+                            <label htmlFor="firstname">First Name</label>
+                        </div>
+                        <div className="col-75">
+                            <input
+                                required
+                                className="new-child-input"
+                                type='text'
+                                name='firstname'
+                                placeholder="Child's first name here"
+                                min="100"
+                                value={formData.firstname}
+                                onChange={handleChange}
+                            />
+                        </div>
                     </div>
-                    <div className="col-75">
-                        <input
-                            required
-                            className="new-child-input"
-                            type='text'
-                            name='firstname'
-                            placeholder="Child's first name here"
-                            min="100"
-                            value={formData.firstname}
-                            onChange={handleChange}
-                        />
+                    <div className="row">
+                        <div className="col-25">
+                            <label htmlFor="adress">Last name</label>
+                        </div>
+                        <div className="col-75">
+                            <input
+                                required
+                                className="new-child-input"
+                                type='text'
+                                name='lastname'
+                                placeholder="Child's last name here"
+                                minLength="1"
+                                value={formData.lastname}
+                                onChange={handleChange}
+                            />
+                        </div>
                     </div>
-                </div>
-                <div className="row">
-                    <div className="col-25">
-                        <label htmlFor="adress">Last name</label>
+                    <div className="row">
+                        <div className="col-25">
+                            <label htmlFor="nickname">Nickname</label>
+                        </div>
+                        <div className="col-75">
+                            <input
+                                required
+                                className="new-child-input"
+                                type="text"
+                                name="nickname"
+                                placeholder="Child's nickname here"
+                                minLength="1"
+                                value={formData.nickname}
+                                onChange={handleChange}
+                            />
+                        </div>
                     </div>
-                    <div className="col-75">
-                        <input
-                            required
-                            className="new-child-input"
-                            type='text'
-                            name='lastname'
-                            placeholder="Child's last name here"
-                            minLength="1"
-                            value={formData.lastname}
-                            onChange={handleChange}
-                        />
+                    <div className="row">
+                        <div className="col-25">
+                            <label htmlFor="birthday">Birthday</label>
+                        </div>
+                        <div className="col-75">
+                            <input
+                                required
+                                className="new-child-input"
+                                type='date'
+                                name='birthday'
+                                placeholder="Child's birthday here"
+                                value={formData.birthday}
+                                onChange={handleChange}
+                            />
+                        </div>
                     </div>
-                </div>
-                <div className="row">
-                    <div className="col-25">
-                        <label htmlFor="nickname">Nickname</label>
+                    <div className="row">
+                        <div className="col-25">
+                            <label htmlFor="age">Age</label>
+                        </div>
+                        <div className="col-75">
+                            <input
+                                required
+                                className="new-child-input"
+                                type='number'
+                                name='age'
+                                placeholder="Child's age here"
+                                min="0"
+                                max='18'
+                                value={formData.age}
+                                onChange={handleChange}
+                            />
+                        </div>
                     </div>
-                    <div className="col-75">
-                        <input
-                            required
-                            className="new-child-input"
-                            type="text"
-                            name="nickname"
-                            placeholder="Child's nickname here"
-                            minLength="1"
-                            value={formData.nickname}
-                            onChange={handleChange}
-                        />
+                    <div className="row">
+                        <div className="col-25">
+                            <label htmlFor="allergiess">Allergies</label>
+                        </div>
+                        <div className="col-75">
+                            <input
+                                required
+                                className="new-child-input"
+                                type='text'
+                                name='allergies'
+                                placeholder="List all the child's allergies here"
+                                minLength="1"
+                                value={formData.allergies}
+                                onChange={handleChange}
+                            />
+                        </div>
                     </div>
-                </div>
-                <div className="row">
-                    <div className="col-25">
-                        <label htmlFor="birthday">Birthday</label>
+                    <div className="row">
+                        <div className="col-25">
+                            <label htmlFor="meds">meds</label>
+                        </div>
+                        <div className="col-75">
+                            <input
+                                required
+                                className="new-child-input"
+                                type='text'
+                                name='meds'
+                                placeholder="List all meds the child is currently taking"
+                                minLength="1"
+                                value={formData.meds}
+                                onChange={handleChange}
+                            />
+                        </div>
                     </div>
-                    <div className="col-75">
-                        <input
-                            required
-                            className="new-child-input"
-                            type='date'
-                            name='birthday'
-                            placeholder="Child's birthday here"
-                            value={formData.birthday}
-                            onChange={handleChange}
-                        />
+                    <div className="row">
+                        <div className="col-25">
+                            <label htmlFor="topsize">Top Size</label>
+                        </div>
+                        <div className="col-75">
+                            <input
+                                required
+                                className="new-child-input"
+                                type='text'
+                                name='topsize'
+                                placeholder="Child's shirt size here"
+                                minLength="1"
+                                value={formData.topsize}
+                                onChange={handleChange}
+                            />
+                        </div>
                     </div>
-                </div>
-                <div className="row">
-                    <div className="col-25">
-                        <label htmlFor="age">Age</label>
+                    <div className="row">
+                        <div className="col-25">
+                            <label htmlFor="pantssize">Pants Size</label>
+                        </div>
+                        <div className="col-75">
+                            <input
+                                required
+                                className="new-child-input"
+                                type="text"
+                                name="pantssize"
+                                placeholder="Child's pants size here"
+                                minLength="1"
+                                value={formData.pantssize}
+                                onChange={handleChange}
+                            />
+                        </div>
                     </div>
-                    <div className="col-75">
-                        <input
-                            required
-                            className="new-child-input"
-                            type='number'
-                            name='age'
-                            placeholder="Child's age here"
-                            min="0"
-                            max='18'
-                            value={formData.age}
-                            onChange={handleChange}
-                        />
+                    <div className="row">
+                        <div className="col-25">
+                            <label htmlFor="dresssize">Dress Size</label>
+                        </div>
+                        <div className="col-75">
+                            <input
+                                required
+                                className="new-child-input"
+                                type="text"
+                                name="dresssize"
+                                placeholder="Child's dress size here"
+                                minLength="1"
+                                value={formData.dresssize}
+                                onChange={handleChange}
+                            />
+                        </div>
                     </div>
-                </div>
-                <div className="row">
-                    <div className="col-25">
-                        <label htmlFor="allergiess">Allergies</label>
+                    <div className="row">
+                        <div className="col-25">
+                            <label htmlFor="shoesize">Shoe Size</label>
+                        </div>
+                        <div className="col-75">
+                            <input
+                                required
+                                className="new-child-input"
+                                type="text"
+                                name="shoesize"
+                                placeholder="Child's shoe size here"
+                                minLength="1"
+                                value={formData.shoesize}
+                                onChange={handleChange}
+                            />
+                        </div>
                     </div>
-                    <div className="col-75">
-                        <input
-                            required
-                            className="new-child-input"
-                            type='text'
-                            name='allergies'
-                            placeholder="List all the child's allergies here"
-                            minLength="1"
-                            value={formData.allergies}
-                            onChange={handleChange}
-                        />
+                    <div className="row">
+                        <div className="col-25">
+                            <label htmlFor="schoollevel">School level</label>
+                        </div>
+                        <div className="col-75">
+                            <input
+                                required
+                                className="new-child-input"
+                                type="text"
+                                name="schoollevel"
+                                placeholder="Write child's current school level, ex, daycare, or grade 1, etc."
+                                minLength="1"
+                                value={formData.schoollevel}
+                                onChange={handleChange}
+                            />
+                        </div>
                     </div>
-                </div>
-                <div className="row">
-                    <div className="col-25">
-                        <label htmlFor="meds">meds</label>
+                    <div className="row">
+                        <div className="col-25">
+                            <label htmlFor="schoolname">school name</label>
+                        </div>
+                        <div className="col-75">
+                            <input
+                                required
+                                className="new-child-input"
+                                type="text"
+                                name="schoolname"
+                                placeholder="Write child's current school name here"
+                                minLength="1"
+                                value={formData.schoolname}
+                                onChange={handleChange}
+                            />
+                        </div>
                     </div>
-                    <div className="col-75">
-                        <input
-                            required
-                            className="new-child-input"
-                            type='text'
-                            name='meds'
-                            placeholder="List all meds the child is currently taking"
-                            minLength="1"
-                            value={formData.meds}
-                            onChange={handleChange}
-                        />
+                    <div className="row">
+                        <div className="col-25">
+                            <label htmlFor="favorites">Favorites</label>
+                        </div>
+                        <div className="col-75">
+                            <input
+                                required
+                                className="new-child-input"
+                                type="text"
+                                name="favorites"
+                                placeholder="List child's favorites here"
+                                minLength="1"
+                                value={formData.favorites}
+                                onChange={handleChange}
+                            />
+                        </div>
                     </div>
-                </div>
-                <div className="row">
-                    <div className="col-25">
-                        <label htmlFor="topsize">Top Size</label>
+                    <div className="row">
+                        <div className="col-25">
+                            <label htmlFor="hates">Dislikes</label>
+                        </div>
+                        <div className="col-75">
+                            <input
+                                required
+                                className="new-child-input"
+                                type="text"
+                                name="hates"
+                                placeholder="List child's dislikes here"
+                                minLength="1"
+                                value={formData.hates}
+                                onChange={handleChange}
+                            />
+                        </div>
                     </div>
-                    <div className="col-75">
-                        <input
-                            required
-                            className="new-child-input"
-                            type='text'
-                            name='topsize'
-                            placeholder="Child's shirt size here"
-                            minLength="1"
-                            value={formData.topsize}
-                            onChange={handleChange}
-                        />
+                    <div>
+                        <button className="submit-button">{!!childToEdit ? 'Submit Changes' : 'Submit New child' }</button>
                     </div>
-                </div>
-                <div className="row">
-                    <div className="col-25">
-                        <label htmlFor="pantssize">Pants Size</label>
-                    </div>
-                    <div className="col-75">
-                        <input
-                            required
-                            className="new-child-input"
-                            type="text"
-                            name="pantssize"
-                            placeholder="Child's pants size here"
-                            minLength="1"
-                            value={formData.pantssize}
-                            onChange={handleChange}
-                        />
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col-25">
-                        <label htmlFor="dresssize">Dress Size</label>
-                    </div>
-                    <div className="col-75">
-                        <input
-                            required
-                            className="new-child-input"
-                            type="text"
-                            name="dresssize"
-                            placeholder="Child's dress size here"
-                            minLength="1"
-                            value={formData.dresssize}
-                            onChange={handleChange}
-                        />
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col-25">
-                        <label htmlFor="shoesize">Shoe Size</label>
-                    </div>
-                    <div className="col-75">
-                        <input
-                            required
-                            className="new-child-input"
-                            type="text"
-                            name="shoesize"
-                            placeholder="Child's shoe size here"
-                            minLength="1"
-                            value={formData.shoesize}
-                            onChange={handleChange}
-                        />
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col-25">
-                        <label htmlFor="schoollevel">School level</label>
-                    </div>
-                    <div className="col-75">
-                        <input
-                            required
-                            className="new-child-input"
-                            type="text"
-                            name="schoollevel"
-                            placeholder="Write child's current school level, ex, daycare, or grade 1, etc."
-                            minLength="1"
-                            value={formData.schoollevel}
-                            onChange={handleChange}
-                        />
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col-25">
-                        <label htmlFor="schoolname">school name</label>
-                    </div>
-                    <div className="col-75">
-                        <input
-                            required
-                            className="new-child-input"
-                            type="text"
-                            name="schoolname"
-                            placeholder="Write child's current school name here"
-                            minLength="1"
-                            value={formData.schoolname}
-                            onChange={handleChange}
-                        />
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col-25">
-                        <label htmlFor="favorites">Favorites</label>
-                    </div>
-                    <div className="col-75">
-                        <input
-                            required
-                            className="new-child-input"
-                            type="text"
-                            name="favorites"
-                            placeholder="List child's favorites here"
-                            minLength="1"
-                            value={formData.favorites}
-                            onChange={handleChange}
-                        />
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col-25">
-                        <label htmlFor="hates">Dislikes</label>
-                    </div>
-                    <div className="col-75">
-                        <input
-                            required
-                            className="new-child-input"
-                            type="text"
-                            name="hates"
-                            placeholder="List child's dislikes here"
-                            minLength="1"
-                            value={formData.hates}
-                            onChange={handleChange}
-                        />
-                    </div>
-                </div>
-                <div>
-                    <button className="submit-button">{!!childToEdit ? 'Submit Changes' : 'Submit New child' }</button>
-                </div>
                 </form>
                 <Link to={`/children/${id}`}><button className="submit-button">Cancel</button></Link>
                 <Link to='/children'><button className="submit-button">Back to All children</button></Link>
