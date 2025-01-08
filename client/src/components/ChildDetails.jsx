@@ -14,7 +14,7 @@ function ChildDetails(){
         .then((resp) => resp.json())
         .then((data) => {
             const currUserId = data.id
-            fetch(`/listing/${id}`)
+            fetch(`/children/${id}`)
             .then((resp) => resp.json())
             .then((data) => {
                 if (currUserId?.toString() === data.user_id?.toString()) {
@@ -29,11 +29,13 @@ function ChildDetails(){
         return (
             <div className="details">
                 <h4>Failed to find child details!</h4>
+                <Link to='/children'><button className="submit-button">Back to all children</button></Link>
             </div>    
         );
     }
-
-    const {image, firstname, lastname, nickname, birthday, age, allergies, meds, topsize, pantssize, dresssize, shoesize, schoollevel, schoolname, favorites, hates} = child
+    
+    const {image, firstname, lastname, nickname, birthday, age, allergies, meds,
+        topsize, pantssize, dresssize, shoesize, schoollevel, schoolname, favorites, hates} = chld
 
     return(
         <div className="details">
@@ -56,6 +58,8 @@ function ChildDetails(){
                 <p>Favorites: {favorites}</p>
                 <p>Hates: {hates}</p>
                 <Link to='/children'><button className="submit-button">Back to all children</button></Link>
+                <Link to={`/children/${id}/edit`}><button className="submit-button">Edit Child info</button></Link>
+                <Link to={`/files/${id}`}><button className="submit-button">See all {firstname}'s files</button></Link>
             </section>
         </div>
     )

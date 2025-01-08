@@ -4,41 +4,47 @@ import ChildCard from './ChildCard'
 import { useUser } from './Adult'
 
 function Children() {
-    const {child} = useOutletContext();
-    const {user} = useUser();
-    const { isSignedIn } = useUser();
-    
+    const { child } = useOutletContext();
+    const { signedIn } = useUser();
+   
     return (
         <div>
             <h2>My Child</h2>
-            <ul className="cards">{ isSignedIn ? 
-                <ChildCard
-                key={child.id}
-                id={child.id}
-                firstname={child.firstname}
-                lastname={child.lastname}
-                nickname={child.nickname}
-                age={child.age}
-                birthday={child.birthday}
-                allergies={child.allergies}
-                meds={child.meds}
-                topsize={child.topsize}
-                pantssize={child.pantssize}
-                dresssize={child.dresssize}
-                shoesize={child.shoesize}
-                schoollevel={child.schoollevel}
-                schoolname={child.schoolname}
-                favorites={child.favorites}
-                hates={child.hates}
-                /> : (
+                { signedIn ? (
+                    <div>
+                        <Link to='/new-child'><button className="submit-button">Add a new child</button></Link>
+                        <ul className="cards"> 
+                            {child.map((chld) => (
+                                <ChildCard
+                                    key={chld.id}
+                                    id={chld.id}
+                                    firstname={chld.firstname}
+                                    lastname={chld.lastname}
+                                    nickname={chld.nickname}
+                                    age={chld.age}
+                                    birthday={chld.birthday}
+                                    allergies={chld.allergies}
+                                    meds={chld.meds}
+                                    topsize={chld.topsize}
+                                    pantssize={chld.pantssize}
+                                    dresssize={chld.dresssize}
+                                    shoesize={chld.shoesize}
+                                    schoollevel={chld.schoollevel}
+                                    schoolname={chld.schoolname}
+                                    favorites={chld.favorites}
+                                    hates={chld.hates}
+                                />
+                            ))}
+                        </ul>
+                    </div>
+                ) : (
                     <section>
                         <p>Please sign in to see all your children</p>
                         <Link to='/signin'><button className="submit-button">Sign In</button></Link>
                     </section>
-                )}
-            </ul>
+            )}
         </div>
     )
 }
 
-export default Children
+export default Children;

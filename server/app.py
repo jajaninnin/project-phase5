@@ -143,7 +143,10 @@ class ChildrenById(Resource):
             child = db.session.execute(db.select(Child).filter_by(id=id)).scalar_one()
             param = request.json
             for attr in param:
-                setattr(child, attr, param[attr])
+                if attr == 'birthday':
+                    setattr(child, attr, parser.parse(param[attr]))
+                else:    
+                    setattr(child, attr, param[attr])
             db.session.commit()
             new_child = db.session.execute(db.select(Child).filter_by(id=id)).scalar_one()
             return make_response(new_child.to_dict(), 202)
@@ -236,6 +239,29 @@ api.add_resource(Families, '/families')
 api.add_resource(FamiliesById, '/families/<int:id>')
 api.add_resource(FamiliesByUserId, '/users-families/<int:id>')
 
+class FamilyMembers(Resource):
+    def get(self):
+        try:
+            fam_members = db.session.execute(db.select(FamilyMember)).scalars()
+            list_fammem = [mem.to_dict() for mem in fam_members]
+            return make_response(list_fammem)
+        except Exception as e:
+            print(f'error occured: {e}')
+            return make_response({'error': 'Family not found'}, 404)
+    
+    def post(self):
+        try:
+            param = request.json
+            new_family = FamilyMember(
+                invite_code=param['invite_code']
+            )
+            db.session.add(new_family)
+            db.session.commit()
+            return make_response(new_family.to_dict(), 201)
+        except Exception as e:
+            print(f'error occured: {e}')
+            return make_response({'error': ['validation errors']}, 400)
+
 class Files(Resource):
     def get(self):
         try:
@@ -258,7 +284,7 @@ class FilesByChildId(Resource):
     
     def post(self, id):
         try:
-            accepted_file_extensions = ['jpeg', '.jpg', '.png', '.gif', '.doc', '.docx', '.ppt', '.pptx', '.xls', '.xlsx', '.txt', '.pdf']
+            accepted_file_extensions = ['jpeg', '.jpg', '.png', '.gif', '.doc', 'docx', '.ppt', 'pptx', '.xls', 'xlsx', '.txt', '.pdf']
             file = request.files['file']
             filename = secure_filename(file.filename)
             isAcceptedFileExtension = False

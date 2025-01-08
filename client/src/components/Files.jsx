@@ -1,16 +1,19 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useUser } from "./Adult";
-import { Link } from "react-router-dom";
+import { Link, useOutletContext, useParams } from "react-router-dom";
 
 function Files() {
-    const { isSignedIn } = useUser();
+    const { signedIn } = useUser();
+    const { child } = useOutletContext();
+    const {id} = useParams();
     
         return (
             <div>
                 <h2>My Child's Files</h2>
-                <ul className="cards">{ isSignedIn ? 
+                <ul className="cards">{ signedIn ? 
                     <section>
                         <p>All your child's files here</p>
+                        <Link to={`/children/${id}`}><button className="submit-button">Back to Child's information</button></Link>
                     </section>
                     :
                     (

@@ -8,17 +8,27 @@ function Families() {
     const {user} = useUser();
     const { signedIn } = useUser();
     const { family } = useOutletContext();
-    console.log(user, 'user')
-    console.log(signedIn, 'issigned')
+   
+    if (family.length < 1) {
+        return (
+            <div>No families</div>
+        )
+    }
     return (
         <div>
             <h2>My Family</h2>
             <ul className="cards">{ signedIn ? 
-                <FamilyCard 
-                    key={family.id}
-                    name={family.name}
-                    members={family.members}
-                /> :
+                (family.map((fam) => (
+                    <FamilyCard 
+                        key={fam.id}
+                        id={fam.id}
+                        name={fam.name}
+                        adults_member={fam.adults_member}
+                        children_member={fam.children_member}
+                        invite_code={fam.invite_code}
+                    />
+                    )
+                )) :
                 (
                     <section>
                         <p>Please sign in to see all your families</p>

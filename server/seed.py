@@ -54,7 +54,7 @@ with app.app_context():
             firstname=fake.first_name(),
             lastname=fake.last_name(),
             nickname=fake.first_name(),
-            age=random.randint(18, 99),
+            age=random.randint(1, 18),
             birthday=fake.date_of_birth(maximum_age=18),
             allergies=rc(allergies),
             meds=rc(medis),
@@ -98,7 +98,7 @@ with app.app_context():
     list_children = [n.to_dict(rules=('-familymembers',)) for n in childrenFromDB]
 
     familiesFromDB = db.session.execute(db.select(Family)).scalars()
-    list_families = [n.to_dict(rules=('-children', '-adults')) for n in familiesFromDB]
+    list_families = [n.to_dict() for n in familiesFromDB]
 
     FamilyMember.query.delete()
     family_members = []
