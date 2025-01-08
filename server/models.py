@@ -19,7 +19,7 @@ class Adult(db.Model, SerializerMixin):
     username = db.Column(db.String, nullable=False, unique=True)
     _password_hash = db.Column(db.String, nullable=False)
 
-    serialize_rules = ('-familymember', )
+    serialize_rules = ('-familymembers', )
 
     @validates('firstname')
     def validate_firstname(self, key, value):

@@ -170,7 +170,7 @@ class Families(Resource):
     def get(self):
         try:
             families = db.session.execute(db.select(Family)).scalars()
-            list_family = [family.to_dict() for family in Families]
+            list_family = [family.to_dict() for family in families]
             return make_response(list_family)
         except Exception as e:
             print(f'error occured: {e}')
