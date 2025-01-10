@@ -36,12 +36,27 @@ function FamilyDetails(){
 
     const {name, invite_code, adults_member, children_member} = fam
 
+    function handleRemove() {
+        fetch(`/families/${id}`, {
+            method: "DELETE"
+        })
+        .then(() => {})
+        .then(() => {
+            const oldFamily = family.filter((fam) => fam?.id?.toString() !== id?.toString());
+            setFamily([...oldFamily]);
+            window.scrollTo({top: 0}); 
+            navigate('/families');
+        })
+    }
+    
+
     return(
         <div className="details">
             <section className="details-section">
                 <h2>{name} </h2>
                 <p>Invite Code: {invite_code}</p>
                 <Link to='/families'><button className="submit-button">Back to all families</button></Link>
+                <button onClick={handleRemove} className="submit-button">Remove Family</button>
             </section>
             <section>
                 <h3>Adult members:</h3>

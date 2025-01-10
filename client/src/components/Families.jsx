@@ -5,7 +5,6 @@ import { useOutletContext } from "react-router-dom";
 import FamilyCard from './FamilyCard'
 
 function Families() {
-    const {user} = useUser();
     const { signedIn } = useUser();
     const { family } = useOutletContext();
    
@@ -17,6 +16,7 @@ function Families() {
     return (
         <div>
             <h2>My Family</h2>
+            <button className="submit-button">Add a new family</button>
             <ul className="cards">{ signedIn ? 
                 (family.map((fam) => (
                     <FamilyCard 

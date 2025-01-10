@@ -3,7 +3,7 @@ import { Link, useOutlet, useParams, useNavigate, useOutletContext } from "react
 import { useUser } from "./Adult";
 
 function ChildDetails(){
-    const {child, setChild, files, setFiles} = useOutletContext();
+    const {child, setChild} = useOutletContext();
     const { user, signedIn } = useUser();
     const {id} = useParams();
     const [ isOwner, setIsOwner ] = useState(false);
@@ -33,6 +33,19 @@ function ChildDetails(){
             </div>    
         );
     }
+
+    function handleRemove() {
+        fetch(`/children/${id}`, {
+            method: "DELETE"
+        })
+        .then(() => {})
+        .then(() => {
+            const oldChildren = child.filter((chld) => chld?.id?.toString() !== id?.toString());
+            setChild([...oldChildren]);
+            window.scrollTo({top: 0}); 
+            navigate('/children');
+        })
+    }
     
     const {image, firstname, lastname, nickname, birthday, age, allergies, meds,
         topsize, pantssize, dresssize, shoesize, schoollevel, schoolname, favorites, hates} = chld
@@ -58,8 +71,11 @@ function ChildDetails(){
                 <p>Favorites: {favorites}</p>
                 <p>Hates: {hates}</p>
                 <Link to='/children'><button className="submit-button">Back to all children</button></Link>
-                <Link to={`/children/${id}/edit`}><button className="submit-button">Edit Child info</button></Link>
                 <Link to={`/files/${id}`}><button className="submit-button">See all {firstname}'s files</button></Link>
+            </section>
+            <section>
+                <Link to={`/children/${id}/edit`}><button className="submit-button">Edit Child info</button></Link>
+                <button onClick={handleRemove} className="submit-button">Remove Child</button>
             </section>
         </div>
     )

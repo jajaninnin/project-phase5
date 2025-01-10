@@ -5,6 +5,7 @@ from sqlalchemy.orm import validates
 from sqlalchemy.ext.associationproxy import association_proxy
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.dialects.postgresql import ENUM
+from sqlalchemy.sql import func
 
 from config import db
 
@@ -71,7 +72,7 @@ class Adult(db.Model, SerializerMixin):
 class Child(db.Model, SerializerMixin):
     __tablename__ = 'children'
     id = db.Column(db.Integer, primary_key=True)
-    image = db.Column(db.String, nullable=False)
+    image = db.Column(db.String)
     firstname = db.Column(db.String, nullable=False)
     lastname = db.Column(db.String, nullable=False)
     nickname = db.Column(db.String, nullable=False)
@@ -240,8 +241,8 @@ class Family(db.Model, SerializerMixin):
 class File(db.Model, SerializerMixin):
     __tablename__ = 'files'
     id = db.Column(db.Integer, primary_key=True)
-    filename = db.Column(db.String, nullable=False, unique=True)
-    filedate = db.Column(db.Date, nullable=False)
+    filename = db.Column(db.String, nullable=False)
+    filedate = db.Column(db.DateTime, nullable=False, default=db.func.now())
     child_id = db.Column(db.Integer, db.ForeignKey('children.id'))
 
     # child = db.relationship('Child', back_populates='files')

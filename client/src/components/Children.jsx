@@ -33,6 +33,7 @@ function Children() {
                                     schoolname={chld.schoolname}
                                     favorites={chld.favorites}
                                     hates={chld.hates}
+                                    image={chld.image}
                                 />
                             ))}
                         </ul>

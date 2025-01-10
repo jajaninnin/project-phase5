@@ -1,7 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useUser } from "./Adult";
 
 function Home() {
+    const { signedIn } = useUser();
+
     return (
         <div className="home">
             <section className="section-title">
@@ -11,7 +14,11 @@ function Home() {
             <section>
                 <h2 className="section-header">Parenting made easy</h2>
                 <p>some text here</p>
+                <p>{signedIn ?
+                <Link to='/logout'><button className="submit-button">Log Out</button></Link>
+                :
                 <Link to='/signin'><button className="submit-button">Sign In</button></Link>
+                }</p>
             </section>
             <section>
                 <h2 className="section-header">Keep track of your families</h2>
@@ -31,7 +38,7 @@ function Home() {
             <section>
                 <h2 className="section-header">Keep track of all your children's files</h2>
                 <p>some text here</p>
-                <Link to='/files'><button className="submit-button">See all my Children's Files</button></Link>
+                <Link to='/children'><button className="submit-button">See all my Children's Files</button></Link>
             </section>
             
         </div>

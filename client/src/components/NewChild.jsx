@@ -29,6 +29,7 @@ function NewChild({isEdit = false}) {
     };
 
     const [ formData, setFormData ] = useState({...initialFormData});
+    const [ image, setImage ] = useState(undefined);
         
     useEffect(() => {
         fetch('/check')
@@ -53,11 +54,26 @@ function NewChild({isEdit = false}) {
         })
         .then((response) => response.json())
         .then((newChild) => {
-            const oldchildren = isExistingchild ? 
-                child.filter((chld) => chld?.id?.toString() !== childToEdit?.id?.toString()) 
+            const data = new FormData();
+            data.append('file', image);
+            data.append('name', 'image');
+            fetch(`/children/${newChild.id}/image`, {
+                method: "POST",
+                body: data
+            })
+            .then((response) => response.json())
+            .then((image) => {
+                if (image?.filepath) {
+                    newChild.image = image.filepath;
+                }
+                const oldchildren = isExistingchild ? 
+                child.filter((chld) => chld?.id?.toString() !== newChild?.id?.toString()) 
                 : child;
-            setChild([...oldchildren, newChild]);
-            navigate(`/children/${newChild.id}`);
+                setChild([...oldchildren, newChild]);
+                navigate(`/children/${newChild.id}`);
+            })
+            .catch(e => console.error("Error uploading child image", e));
+            
         })
         .catch((error) => console.error("Error adding new child", error));
       };
@@ -99,7 +115,7 @@ function NewChild({isEdit = false}) {
                                 type='text'
                                 name='firstname'
                                 placeholder="Child's first name here"
-                                min="100"
+                                minLength="1"
                                 value={formData.firstname}
                                 onChange={handleChange}
                             />
@@ -192,7 +208,7 @@ function NewChild({isEdit = false}) {
                     </div>
                     <div className="row">
                         <div className="col-25">
-                            <label htmlFor="meds">meds</label>
+                            <label htmlFor="meds">Medications</label>
                         </div>
                         <div className="col-75">
                             <input
@@ -294,7 +310,7 @@ function NewChild({isEdit = false}) {
                     </div>
                     <div className="row">
                         <div className="col-25">
-                            <label htmlFor="schoolname">school name</label>
+                            <label htmlFor="schoolname">School Name</label>
                         </div>
                         <div className="col-75">
                             <input
@@ -343,9 +359,26 @@ function NewChild({isEdit = false}) {
                             />
                         </div>
                     </div>
-                    <div>
-                        <button className="submit-button">{!!childToEdit ? 'Submit Changes' : 'Submit New child' }</button>
+                    <div className="row">
+                        <div className="col-25">
+                            <label htmlFor="image">Image</label>
+                        </div>
+                        <div className="col-75">
+                            <input
+                                type='file'
+                                name='image'
+                                accept="image/*"
+                                onChange={(e) => {
+                                    if (e?.target?.files?.[0]) {
+                                        setImage(e.target.files[0])
+                                    }
+                                }}
+                            />
+                        </div>
                     </div>
+                <div>
+                    <button className="submit-button">{!!childToEdit ? 'Submit Changes' : 'Submit New child' }</button>
+                </div>
                 </form>
                 <Link to={`/children/${id}`}><button className="submit-button">Cancel</button></Link>
                 <Link to='/children'><button className="submit-button">Back to All children</button></Link>

@@ -8,13 +8,16 @@ from flask_restful import Api
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
 from flask_bcrypt import Bcrypt
+import os
 
 # Local imports
 
 # Instantiate app, set attributes
-app = Flask(__name__)
+app = Flask(__name__, static_folder='images')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+upload_folder = os.path.join('images')
+app.config['UPLOAD'] = upload_folder
 app.json.compact = False
 
 # Define metadata, instantiate db

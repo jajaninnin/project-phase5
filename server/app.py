@@ -10,7 +10,6 @@ from dateutil import parser
 # Local imports
 import os
 from config import app, db, api
-from flask_cors import CORS
 # Add your model imports
 from models import Adult, Child, FamilyMember, Family, File, Event
 
@@ -110,12 +109,12 @@ class Children(Resource):
                 lastname=param['lastname'],
                 nickname=param['nickname'],
                 age=param['age'],
-                birthday=param['birthday'],
+                birthday=parser.parse(param['birthday']),
                 allergies=param['allergies'],
                 meds=param['meds'],
                 topsize=param['topsize'],
                 pantssize=param['pantssize'],
-                dresssize=param['dressize'],
+                dresssize=param['dresssize'],
                 shoesize=param['shoesize'],
                 schoollevel=param['schoollevel'],
                 schoolname=param['schoolname'],
@@ -166,8 +165,34 @@ class ChildrenById(Resource):
             print(f'error occured: {e}')
             return make_response({'error': 'Child not found'}, 404)
         
+class ChildrenAddImage(Resource):
+    def post(self, id):
+        try:
+            child = db.session.execute(db.select(Child).filter_by(id=id)).scalar_one()
+            accepted_file_extensions = ['jpeg', '.jpg', '.png', '.gif']
+            file = request.files['file']
+            filename = secure_filename(file.filename)
+            isAcceptedFileExtension = False
+            fileExt = filename[-4:]
+            for ext in accepted_file_extensions:
+                if ext == fileExt:
+                    isAcceptedFileExtension = True
+
+            if isAcceptedFileExtension:
+                file.save(os.path.join(app.config['UPLOAD'], filename)) 
+                setattr(child, "image", f"/{os.path.join(app.config['UPLOAD'], filename)}")
+                db.session.commit()
+                return make_response({'filepath': f"/{os.path.join(app.config['UPLOAD'], filename)}", 'id': child.id}, 200)
+            else:
+                print(f'error occured: {e}')
+                return make_response({'error': 'Image wrong file extension'}, 404)
+        except Exception as e:
+            print(f'error occured: {e}')
+            return make_response({'error': 'Image upload failed'}, 404)
+    
 api.add_resource(Children, '/children')
 api.add_resource(ChildrenById, '/children/<int:id>')
+api.add_resource(ChildrenAddImage, '/children/<int:id>/image')
 
 class Families(Resource):
     def get(self):
@@ -276,7 +301,7 @@ class FilesByChildId(Resource):
     def get(self, id):
         try:
             files = db.session.execute(db.select(File).filter_by(child_id=id)).scalars()
-            files_per_child = [img.to_dict(rules=('-listing',)) for img in files]
+            files_per_child = [file.to_dict() for file in files]
             return make_response(files_per_child)
         except Exception as e:
             print(f'error occured: {e}')
@@ -295,13 +320,13 @@ class FilesByChildId(Resource):
 
             if isAcceptedFileExtension:
                 file.save(os.path.join(app.config['UPLOAD'], filename)) 
-                newImage = file(
-                    file=f"/{os.path.join(app.config['UPLOAD'], filename)}",
-                    listing_id=id
+                newFile = File(
+                    filename=f"/{os.path.join(app.config['UPLOAD'], filename)}",
+                    child_id=id
                 )
-                db.session.add(newImage)
+                db.session.add(newFile)
                 db.session.commit()
-                return make_response({'file': f"/{os.path.join(app.config['UPLOAD'], filename)}", 'id': newImage.id, 'listing_id': id}, 200)
+                return make_response({'filepath': f"/{os.path.join(app.config['UPLOAD'], filename)}", 'id': newFile.id, 'child_id': id}, 200)
             else:
                 print(f'error occured: {e}')
                 return make_response({'error': 'file wrong file extension'}, 404)
@@ -365,7 +390,7 @@ class EventsById(Resource):
             event = db.session.execute(db.select(Event).filter_by(id=id)).scalar_one()
             param = request.json
             for attr in param:
-                setattr(event, attr, param['attr'])
+                setattr(event, attr, parser.parse(param[attr]))
             db.session.commit()
             return make_response(event.to_dict(), 202)
         except NoResultFound:
