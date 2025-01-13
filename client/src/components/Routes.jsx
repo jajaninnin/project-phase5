@@ -11,6 +11,7 @@ import App from './App'
 import NewChild from "./NewChild";
 import MyProfile from "./MyProfile";
 import LoggedInCheck from "./LoggedInCheck";
+import JoinAFamily from "./JoinAFamily";
 
 const routes = createBrowserRouter([{
     path: '/', element: <App />,
@@ -28,6 +29,7 @@ const routes = createBrowserRouter([{
                 { path: '/files/:id', element: <Files />},
                 { path: '/events', element: <Events />},
                 { path: '/my-profile', element: <MyProfile />},
+                { path: '/join-a-family/:inviteCode', element: <JoinAFamily />},
             ]
          },
     ]

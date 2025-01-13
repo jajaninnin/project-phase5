@@ -435,6 +435,32 @@ class EventsById(Resource):
 
 api.add_resource(EventsById, '/events/<int:id>')
 
+class JoinFamily(Resource):
+    def post(self, invite_code):
+        try:
+            user_id = session.get('user_id')
+            if user_id:
+                family = db.session.execute(db.select(Family).filter_by(invite_code=invite_code)).scalar_one()
+                is_already_in_family = db.session.execute(db.select(FamilyMember).filter_by(family_id=family.id, member_id=user_id, member_type='adult')).scalar()
+                if (is_already_in_family):
+                    return make_response({'message': 'Already in family'}, 200)
+                
+                new_family_member = FamilyMember(
+                    family_id=family.id,
+                    member_id=user_id,
+                    member_type='adult'
+                )
+                db.session.add(new_family_member)
+                db.session.commit()
+                return make_response({'message': 'Successfully joined family'}, 200)
+            return make_response({'error': 'No authorization'}, 401)
+        except Exception as e:
+                    print(f'error occured: {e}')
+                    return make_response({'error': ['validation errors']}, 400)
+        
+
+api.add_resource(JoinFamily, '/join-family/<string:invite_code>')
+
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
 
