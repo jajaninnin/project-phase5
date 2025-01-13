@@ -10,17 +10,12 @@ function FamilyDetails(){
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetch('/check')
+        fetch(`/families/${id}`)
         .then((resp) => resp.json())
         .then((data) => {
-            const currUserId = data.id
-            fetch(`/families/${id}`)
-            .then((resp) => resp.json())
-            .then((data) => {
-                if (currUserId?.toString() === data.user_id?.toString()) {
-                    setIsOwner(true)
-                }
-            })
+            if (user?.id?.toString() === data.user_id?.toString()) {
+                setIsOwner(true)
+            }
         })
     })
 

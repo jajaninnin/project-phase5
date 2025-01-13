@@ -18,6 +18,17 @@ from models import Adult, Child, FamilyMember, Family, File, Event
 def index():
     return '<h1>Project Server</h1>'
 
+class CheckSession(Resource):
+    def get(self):
+        user_id = session.get('user_id')
+        if user_id:
+            user = db.session.get(Adult, user_id)
+            if user:
+                return make_response(user.to_dict(), 200)
+        return make_response({'error': 'No authorization'}, 401)
+
+api.add_resource(CheckSession, '/check')
+
 class Signup(Resource):
     def post(self):
         params = request.json
@@ -50,16 +61,23 @@ class Signup(Resource):
         
 api.add_resource(Signup, '/signup')
 
-class CheckSession(Resource):
-    def get(self):
-        user_id = session.get('user_id')
-        if user_id:
-            user = db.session.get(Adult, user_id)
-            if user:
-                return make_response(user.to_dict(), 200)
-        return make_response({'error': 'No authorization'}, 401)
+class UpdateCurrentUser(Resource):
+    def patch(self):
+        try:
+            user_id = session.get('user_id')
+            if user_id:
+                user = db.session.get(Adult, user_id)
+                param = request.json
+                for attr in param:
+                    setattr(user, attr, param['attr'])
+                db.session.commit()
+                return make_response(user.to_dict(), 202)
+            return make_response({'error': 'No authorization'}, 401)
+        except Exception as e:
+            print(f'error occured: {e}')
+            return make_response({'error': ['validation errors']}, 400)
 
-api.add_resource(CheckSession, '/check')
+api.add_resource(UpdateCurrentUser, '/update-user')
 
 class Login(Resource):
     def post(self):
@@ -94,12 +112,18 @@ api.add_resource(Logout, '/logout')
 class Children(Resource):
     def get(self):
         try:
-            children = db.session.execute(db.select(Child)).scalars()
-            list_children = [n.to_dict(rules=('-family',)) for n in children]
-            return make_response(list_children)
+            user_id = session.get('user_id')
+            if user_id:
+                family_memberships = db.session.execute(db.select(FamilyMember).filter_by(member_id=user_id, member_type="adult")).scalars()
+                list_children = []
+                for fam_mem in family_memberships:
+                    children = db.session.execute(db.select(Child).select_from(FamilyMember).join(Child, db.and_(Child.id == FamilyMember.member_id, FamilyMember.member_type == "child")).filter(FamilyMember.family_id==fam_mem.family_id)).scalars()
+                    list_children += [n.to_dict() for n in children]
+                return make_response(list_children)
+            return make_response({'error': 'No authorization'}, 401)
         except Exception as e:
             print(f'error occured: {e}')
-            return make_response({'error': 'Children not found'}, 404)
+            return make_response({'error': ['validation errors']}, 400)
     
     def post(self):
         try:
