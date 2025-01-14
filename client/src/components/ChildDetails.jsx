@@ -4,7 +4,7 @@ import { useUser } from "./Adult";
 
 function ChildDetails(){
     const {child, setChild} = useOutletContext();
-    const { user, signedIn } = useUser();
+    const { files, setFiles } = useOutletContext();
     const {id} = useParams();
     const [ isOwner, setIsOwner ] = useState(false);
     const navigate = useNavigate();
@@ -49,6 +49,8 @@ function ChildDetails(){
     
     const {image, firstname, lastname, nickname, birthday, age, allergies, meds,
         topsize, pantssize, dresssize, shoesize, schoollevel, schoolname, favorites, hates} = chld
+    
+    // const {id, filename, filedate} = file
 
     return(
         <div className="details">
@@ -77,6 +79,16 @@ function ChildDetails(){
                 <Link to={`/children/${id}/edit`}><button className="submit-button">Edit Child info</button></Link>
                 <button onClick={handleRemove} className="submit-button">Remove Child</button>
             </section>
+            {/* <section>
+                <h3>My Child's Files</h3>
+                <ul>
+                    {file.map((files, indx) => (
+                        key={`${files.id}_${index}`}
+                        filename={files.filename}
+                        filedate={files.filedate}
+                    ))}
+                </ul>
+            </section> */}
         </div>
     )
 }

@@ -1,23 +1,17 @@
 import React from "react";
-import { useUser } from "./Adult";
 import { Link } from "react-router-dom";
 import { useOutletContext } from "react-router-dom";
 import FamilyCard from './FamilyCard'
 
 function Families() {
-    const { signedIn } = useUser();
     const { family } = useOutletContext();
    
-    if (family.length < 1) {
-        return (
-            <div>No families</div>
-        )
-    }
     return (
         <div>
             <h2>My Family</h2>
-            <button className="submit-button">Add a new family</button>
-            <ul className="cards">{ signedIn ? 
+            <Link to='/new-family'><button className="submit-button">Create a new family</button></Link>
+            <Link to='/join-a-family'><button className="submit-button">Join a family</button></Link>
+            <ul className="cards">{ family.length >= 1 ? 
                 (family.map((fam) => (
                     <FamilyCard 
                         key={fam.id}
@@ -31,8 +25,7 @@ function Families() {
                 )) :
                 (
                     <section>
-                        <p>Please sign in to see all your families</p>
-                        <Link to='/signin'><button className="submit-button">Sign In</button></Link>
+                        <p>No families found, please join one or create a new family!</p>
                     </section>
                 )}
             </ul>

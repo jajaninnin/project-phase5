@@ -1,13 +1,13 @@
 import React, {Fragment} from "react";
-import { useOutletContext } from "react-router-dom";
+import { Link, useOutletContext } from "react-router-dom";
 import { useUser } from "./Adult";
 
-function ChildDetails(){
+function MyProfile(){
     const { user } = useUser();
     const { family } = useOutletContext();
     const fams = family.filter(fmly => fmly.adults_member.some(adult_mem => user?.id === adult_mem?.id));
     function handleUserUpdate() {
-        fetch(`/my-profile`, {
+        fetch(`/myprofile/edit`, {
             method: "PATCH",
             // body: 
         })
@@ -33,6 +33,10 @@ function ChildDetails(){
                 <p>Nickname: {role}</p>
                 <p>Birthday: {username}</p>
                 <p>Age: {age}</p>
+                <Link to='/user-update'><button className="submit-button" onClick={handleUserUpdate}>Edit my profile</button></Link>
+            </section>
+            <section>
+                <h3>My Family</h3>
                 { fams.map((fam) => (
                     <Fragment key={fam.id}>
                         <p>Family: {fam.name}</p>
@@ -45,4 +49,4 @@ function ChildDetails(){
     )
 }
 
-export default ChildDetails;
+export default MyProfile;

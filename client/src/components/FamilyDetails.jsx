@@ -1,23 +1,10 @@
-import React, {useEffect, useState} from "react";
-import { Link, useOutlet, useParams, useNavigate, useOutletContext } from "react-router-dom";
-import { useUser } from "./Adult";
+import React from "react";
+import { Link, useParams, useNavigate, useOutletContext } from "react-router-dom";
 
 function FamilyDetails(){
-    const { family, setFamily} = useOutletContext();
-    const { user, signedIn } = useUser();
+    const { family, setFamily } = useOutletContext();
     const {id} = useParams();
-    const [ isOwner, setIsOwner ] = useState(false);
     const navigate = useNavigate();
-
-    useEffect(() => {
-        fetch(`/families/${id}`)
-        .then((resp) => resp.json())
-        .then((data) => {
-            if (user?.id?.toString() === data.user_id?.toString()) {
-                setIsOwner(true)
-            }
-        })
-    })
 
     const fam = family.find((fam) => fam?.id?.toString() === id.toString());
     if (!fam) {
@@ -48,7 +35,7 @@ function FamilyDetails(){
     return(
         <div className="details">
             <section className="details-section">
-                <h2>{name} </h2>
+                <h2>{name}</h2>
                 <p>Invite Code: {invite_code}</p>
                 <Link to='/families'><button className="submit-button">Back to all families</button></Link>
                 <button onClick={handleRemove} className="submit-button">Remove Family</button>

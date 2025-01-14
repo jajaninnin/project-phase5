@@ -14,9 +14,9 @@ function Children() {
                     <div>
                         <Link to='/new-child'><button className="submit-button">Add a new child</button></Link>
                         <ul className="cards"> 
-                            {child.map((chld) => (
+                            {child.map((chld, index) => (
                                 <ChildCard
-                                    key={chld.id}
+                                    key={`${chld.id}_${index}`}
                                     id={chld.id}
                                     firstname={chld.firstname}
                                     lastname={chld.lastname}

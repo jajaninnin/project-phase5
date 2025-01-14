@@ -6,6 +6,7 @@ from sqlalchemy.exc import NoResultFound
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 from dateutil import parser
+import uuid
 
 # Local imports
 import os
@@ -77,7 +78,7 @@ class UpdateCurrentUser(Resource):
             print(f'error occured: {e}')
             return make_response({'error': ['validation errors']}, 400)
 
-api.add_resource(UpdateCurrentUser, '/update-user')
+api.add_resource(UpdateCurrentUser, '/myprofile/edit')
 
 class Login(Resource):
     def post(self):
@@ -127,27 +128,37 @@ class Children(Resource):
     
     def post(self):
         try:
-            param = request.json
-            new_child = Child(
-                firstname=param['firstname'],
-                lastname=param['lastname'],
-                nickname=param['nickname'],
-                age=param['age'],
-                birthday=parser.parse(param['birthday']),
-                allergies=param['allergies'],
-                meds=param['meds'],
-                topsize=param['topsize'],
-                pantssize=param['pantssize'],
-                dresssize=param['dresssize'],
-                shoesize=param['shoesize'],
-                schoollevel=param['schoollevel'],
-                schoolname=param['schoolname'],
-                favorites=param['favorites'],
-                hates=param['hates'],
-            )
-            db.session.add(new_child)
-            db.session.commit()
-            return make_response(new_child.to_dict(), 201)
+            user_id = session.get('user_id')
+            if user_id:
+                param = request.json
+                new_child = Child(
+                    firstname=param['firstname'],
+                    lastname=param['lastname'],
+                    nickname=param['nickname'],
+                    age=param['age'],
+                    birthday=parser.parse(param['birthday']),
+                    allergies=param['allergies'],
+                    meds=param['meds'],
+                    topsize=param['topsize'],
+                    pantssize=param['pantssize'],
+                    dresssize=param['dresssize'],
+                    shoesize=param['shoesize'],
+                    schoollevel=param['schoollevel'],
+                    schoolname=param['schoolname'],
+                    favorites=param['favorites'],
+                    hates=param['hates'],
+                )
+                db.session.add(new_child)
+                db.session.commit()
+                new_family_member_child = FamilyMember(
+                        family_id=param['family_id'],
+                        member_id=new_child.id,
+                        member_type='child'
+                    )
+                db.session.add(new_family_member_child)
+                db.session.commit()
+                return make_response(new_child.to_dict(), 201)
+            return make_response({'error': 'No authorization'}, 401)
         except Exception as e:
             print(f'error occured: {e}')
             return make_response({'error': ['validation errors']}, 400)
@@ -221,22 +232,42 @@ api.add_resource(ChildrenAddImage, '/children/<int:id>/image')
 class Families(Resource):
     def get(self):
         try:
-            families = db.session.execute(db.select(Family)).scalars()
-            list_family = [family.to_dict() for family in families]
-            return make_response(list_family)
+            user_id = session.get('user_id')
+            if user_id:
+                family_memberships = db.session.execute(db.select(FamilyMember).filter_by(member_id=user_id, member_type="adult")).scalars()
+                list_families = []
+                for fam_mem in family_memberships:
+                    families = db.session.execute(db.select(Family).filter_by(id=fam_mem.family_id)).scalars()
+                    list_families += [n.to_dict() for n in families]
+                return make_response(list_families)
+            return make_response({'error': 'No authorization'}, 401)
         except Exception as e:
             print(f'error occured: {e}')
-            return make_response({'error': 'Family not found'}, 404)
+            return make_response({'error': ['validation errors']}, 400)
     
     def post(self):
+        print('uuid0?', uuid.uuid4())
         try:
-            param = request.json
-            new_family = Family(
-                invite_code=param['invite_code']
-            )
-            db.session.add(new_family)
-            db.session.commit()
-            return make_response(new_family.to_dict(), 201)
+            user_id = session.get('user_id')
+            print('uuid1?', uuid.uuid4())
+            if user_id:
+                param = request.json
+                print('uuid2?', uuid.uuid4())
+                new_family = Family(
+                    name=param['name'],
+                    invite_code=str(uuid.uuid4())
+                )
+                db.session.add(new_family)
+                db.session.commit()
+                new_family_member = FamilyMember(
+                    family_id=new_family.id,
+                    member_id=user_id,
+                    member_type='adult'
+                )
+                db.session.add(new_family_member)
+                db.session.commit()
+                return make_response(new_family.to_dict(), 201)
+            return make_response({'error': 'No authorization'}, 401)
         except Exception as e:
             print(f'error occured: {e}')
             return make_response({'error': ['validation errors']}, 400)
@@ -297,19 +328,6 @@ class FamilyMembers(Resource):
         except Exception as e:
             print(f'error occured: {e}')
             return make_response({'error': 'Family not found'}, 404)
-    
-    def post(self):
-        try:
-            param = request.json
-            new_family = FamilyMember(
-                invite_code=param['invite_code']
-            )
-            db.session.add(new_family)
-            db.session.commit()
-            return make_response(new_family.to_dict(), 201)
-        except Exception as e:
-            print(f'error occured: {e}')
-            return make_response({'error': ['validation errors']}, 400)
 
 class Files(Resource):
     def get(self):
@@ -455,8 +473,8 @@ class JoinFamily(Resource):
                 return make_response({'message': 'Successfully joined family'}, 200)
             return make_response({'error': 'No authorization'}, 401)
         except Exception as e:
-                    print(f'error occured: {e}')
-                    return make_response({'error': ['validation errors']}, 400)
+            print(f'error occured: {e}')
+            return make_response({'error': ['validation errors']}, 400)
         
 
 api.add_resource(JoinFamily, '/join-family/<string:invite_code>')
