@@ -51,6 +51,17 @@ npm start
 
 ## Routes
 
+### Signup
+
+- POST ```/signup```: creates a new user within the database and signs them in
+- GET ```/check```: returns the current user that the session belongs to
+- POST ```/login```: creates a new login request using existing users in the database and signs them in
+- DELETE ```/logout```: removes the current user's session (signs them out)
+
+### User Profile
+
+- PATCH ```/myprofile/edit'```: edit the current user within the database
+
 ### Children
 
 - GET ```/children```: returns a list of all children in the database
@@ -68,22 +79,6 @@ npm start
 -DELETE ```/families/<id>```: permanently removes a family from the database at a specified id
 -GET ```/users-families/<id>```: returns a the user owner of a family at a specified id
 
-### Events
-
-- GET ```/events```: returns a list of events in the database
-- POST ```/events```: creates a new event within the database
-- GET ```/events/<id>```: returns a event at the specified id
-- PATCH ```/events/<id>```: updates a event with given information at a specified id
--DELETE ```/events/<id>```: permanently removes a event from the database at a specified id
--GET ```/users-events/<id>```: returns a the user owner of a event at a specified id
-
-### Signup
-
-- POST ```/signup```: creates a new user within the database and signs them in
-- GET ```/check```: returns the current user that the session belongs to
-- POST ```/login```: creates a new login request using existing users in the database and signs them in
-- DELETE ```/logout```: removes the current user's session (signs them out)
-
 ### Files
 
 - GET ```/children-files```: returns a list of all files in the database
@@ -99,6 +94,11 @@ npm start
 2. If you are creating a new account, select the register new account button
 3. Enter your credentials to sign in, if successful you will recieve an alert confirming your sign in and be redirected to the home page
 4. While signed in, you can fully access the features of this website, but you can always log out at any point by selecting the logout button in the navbar
+
+### Managing Your Account
+
+1. Access your profile from the dashboard.
+2. Update your profile or change your password as needed.
 
 ### Creating and Viewing children
 
@@ -127,3 +127,12 @@ npm start
 2. From here, you can view all of your current family, click on the one that you wish to alter to pull up its full detailed information
 3. If you wish to delete a family, simply click the delete button and confirm it's removal WARNING: THIS ACTION CANNOT BE UNDONE
 4. If you wish to edit a family, click the edit button to pull up it's information, and change it as you want. files will have to be reattached, but otherwise you can make changes using it's current information
+
+### Files - create, view, delete
+
+1. While signed in, navigate to the 'family' page
+2. You now can navigate to the 'families' page to view all of your current families
+3. Clicking on each family will allow you to view the details of the each family
+4. In each family, you can now view the members and events
+
+

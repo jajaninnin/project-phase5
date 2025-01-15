@@ -70,7 +70,7 @@ class UpdateCurrentUser(Resource):
                 user = db.session.get(Adult, user_id)
                 param = request.json
                 for attr in param:
-                    setattr(user, attr, param['attr'])
+                    setattr(user, attr, param[attr])
                 db.session.commit()
                 return make_response(user.to_dict(), 202)
             return make_response({'error': 'No authorization'}, 401)
@@ -78,7 +78,7 @@ class UpdateCurrentUser(Resource):
             print(f'error occured: {e}')
             return make_response({'error': ['validation errors']}, 400)
 
-api.add_resource(UpdateCurrentUser, '/myprofile/edit')
+api.add_resource(UpdateCurrentUser, '/my-profile/edit')
 
 class Login(Resource):
     def post(self):
@@ -151,10 +151,10 @@ class Children(Resource):
                 db.session.add(new_child)
                 db.session.commit()
                 new_family_member_child = FamilyMember(
-                        family_id=param['family_id'],
-                        member_id=new_child.id,
-                        member_type='child'
-                    )
+                    family_id=param['family_id'],
+                    member_id=new_child.id,
+                    member_type='child'
+                )
                 db.session.add(new_family_member_child)
                 db.session.commit()
                 return make_response(new_child.to_dict(), 201)
@@ -468,6 +468,7 @@ class JoinFamily(Resource):
                     member_id=user_id,
                     member_type='adult'
                 )
+                print('is this happening a bunch of times 3?')
                 db.session.add(new_family_member)
                 db.session.commit()
                 return make_response({'message': 'Successfully joined family'}, 200)

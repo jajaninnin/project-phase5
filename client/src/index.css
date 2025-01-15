@@ -26,7 +26,7 @@ body {
   bottom: 10px;
   width: 100%;
   max-height: 20%;
-  background-color: rgb(78, 25, 99);
+  background-color: rgb(56, 17, 71);
   padding-bottom: 20px;
   padding-top: 20px;
   align-items: center;
@@ -50,7 +50,7 @@ body {
 }
 
 .headerlink:hover {
-  color: #eee95f;
+  color: #fa9ae0;
 }
 
 .footer {
@@ -58,7 +58,7 @@ body {
   left: 0;
   bottom: 0;
   width: 100%;
-  background-color: rgb(78, 25, 99);
+  background-color: rgb(56, 17, 71);
   color: white;
   text-align: center;
   padding-bottom: 20px;
@@ -79,7 +79,7 @@ body {
   background-color: white;
   padding: 1rem;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgb(241, 210, 186);
+  box-shadow: 0 4px 6px rgb(241, 210, 186);
   text-align: center;
   transition: box-shadow 0.3s ease, transform 0.3s ease;
   margin-bottom: 20px;
@@ -118,20 +118,6 @@ h2 {
   font-size: 30px;
   color: black;
   text-align: center;
-}
-
-.searchbar {
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  max-width: 1200px;
-  margin: 0 auto;
-  font-size: 30px;
-}
-
-input#search {
-  font-size: 30px;
-  width: auto;
 }
 
 .submit-button {
@@ -207,7 +193,7 @@ section {
 
 table, th, td {
   border: 1px solid black;
-  /* border-collapse: collapse; */
+  /* border-collapse: collapse;  */
   width: 100%;
 }
 
@@ -215,14 +201,11 @@ th, td {
   padding: 15px;
   text-align: left;
 }
-
-/* tr:hover {
+/* 
+tr:hover {
   background-color: rgb(230, 213, 243);
 } */
 
-/* tr:nth-child(even) {
-  background-color: #d0bedd;
-} */
 #react-doc-viewer #image-renderer {
   background-image: none;
 }
@@ -303,6 +286,8 @@ input[type=file] {
   max-height: 800px;
   max-width: 500px;
 }
+
+
 
 @media screen and (max-width: 600px) {
   .col-25, .col-75, input[type=submit] {

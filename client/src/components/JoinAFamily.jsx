@@ -1,9 +1,10 @@
 import React, {useEffect, useRef, useState} from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 
 function JoinAFamily() {
     const navigate = useNavigate();
     const { inviteCode } = useParams();
+    const { setFamily } = useOutletContext;
     const [familyJoinError, setFamilyJoinError] = useState(false);
     const hasSentJoinFamilyRequest = useRef(false);
     useEffect(() => {
@@ -16,7 +17,7 @@ function JoinAFamily() {
                     setTimeout(() => {
                         hasSentJoinFamilyRequest.current = false;
                         navigate('/families', { replace: true });
-                    }, 1500);
+                    }, 1000);
                 } else {
                     console.error('error joining family');
                     setFamilyJoinError(true);

@@ -24,6 +24,7 @@ function NewFamily() {
                 navigate('/families');
             } else {
                 setFamilyCreationError(true);
+                // navigate('/families');
             }
         })
         .catch((error) => {
@@ -40,26 +41,24 @@ function NewFamily() {
                 </section>
             )}
             <h2>Create a new family:</h2>
-            <form onClick={handleSubmitNewFamily}>
-                <div className="row">
-                    <div className="col-25">
-                        <label htmlFor="firstname">Family Name:</label>
-                    </div>
-                    <div className="col-75">
-                        <input
-                            required
-                            className="new-child-input"
-                            type='text'
-                            name='name'
-                            placeholder="family name here"
-                            minLength="1"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                        />
-                    </div>
+            <div className="row">
+                <div className="col-25">
+                    <label htmlFor="firstname">Family Name:</label>
                 </div>
-                <button className="submit-button">Create Family</button>
-            </form>
+                <div className="col-75">
+                    <input
+                        required
+                        className="new-child-input"
+                        type='text'
+                        name='name'
+                        placeholder="family name here"
+                        minLength="1"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                    />
+                </div>
+            </div>
+            <button className="submit-button" onClick={handleSubmitNewFamily}>Create Family</button>
             <Link to={`/families`}><button className="submit-button">Cancel</button></Link>
         </div>
     )

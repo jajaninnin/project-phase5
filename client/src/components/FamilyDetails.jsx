@@ -58,11 +58,11 @@ function FamilyDetails(){
                     }, []).join(', ')}
                 </p>
             </section>
-            <section>
+            {/* <section>
                 <h3>Events</h3>
                 <Link to='/events'><button className="submit-button">See all my Events</button></Link>
                 <p>Event here</p>
-            </section>
+            </section> */}
         </div>
     )
 }

@@ -41,12 +41,14 @@ function NewChild({isEdit = false}) {
 
     const addOrEditchild = (newChild) => {
         const isExistingchild = !!childToEdit;
+        const { old_family_id, ...newChildWithoutOldFamilyId } = newChild;
+        const bodyToSend = isExistingchild ? { ...newChild, user_id: user?.id } : { ...newChildWithoutOldFamilyId, user_id: user?.id } 
         fetch(isExistingchild ? `/children/${childToEdit.id}` : "/children", {
             method: isExistingchild  ? "PUT" : "POST",
             headers: {
                 "Content-Type": "Application/JSON",
             },
-            body: JSON.stringify({ ...newChild, user_id: user?.id }),
+            body: JSON.stringify(bodyToSend),
         })
         .then((response) => response.json())
         .then((newChild) => {
