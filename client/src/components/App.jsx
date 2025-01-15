@@ -8,7 +8,7 @@ function App() {
   const { user, signedIn } = useUser();
   const [ child, setChild ] = useState([]);
   const [ family, setFamily ] = useState([]);
-  const [ files, setFiles ] = useState([]);
+  // const [ files, setFiles ] = useState([]);
   const [ events, setEvents ] = useState([]);
 
   useEffect(() => {
@@ -18,10 +18,10 @@ function App() {
       .then((data) => setChild(data))
       .catch((error) => console.error('Error fetching data', error));
 
-      fetch(`/child-files`)
-      .then(resp => resp.json())
-      .then((data) => setFiles(data))
-      .catch((error) => console.error('Error fetching data', error));
+      // fetch(`/child-files`)
+      // .then(resp => resp.json())
+      // .then((data) => setFiles(data))
+      // .catch((error) => console.error('Error fetching data', error));
     
       fetch(`/families`)
       .then(resp => resp.json())
@@ -33,7 +33,7 @@ function App() {
       .then((data) => setEvents(data))
       .catch((error) => console.error('Error fetching data', error));
     }
-  }, [setChild, setEvents, setFamily, setFiles, signedIn, user?.id]);
+  }, [setChild, setEvents, setFamily, signedIn, user?.id]);
 
   return (
     <div>
@@ -42,8 +42,8 @@ function App() {
           <Outlet context={{
             child:child,
             setChild:setChild,
-            files:files,
-            setFiles:setFiles,
+            // files:files,
+            // setFiles:setFiles,
             family:family,
             setFamily:setFamily,
             events:events,

@@ -3,7 +3,7 @@ import HomePage from './HomePage'
 import Children from './Children';
 import ChildDetails from "./ChildDetails";
 import SignIn from "./SignIn";
-import Files from "./Files";
+import FilesViewer from "./FilesViewer";
 import Families from './Families'
 import FamilyDetails from "./FamilyDetails";
 import Events from './Events'
@@ -28,7 +28,7 @@ const routes = createBrowserRouter([{
                 { path: '/children/:id/edit', element: <NewChild isEdit={true} />},
                 { path: '/families', element: <Families />},
                 { path: '/families/:id', element: <FamilyDetails />},
-                { path: '/files/:id', element: <Files />},
+                { path: '/files/:id', element: <FilesViewer />},
                 { path: '/events', element: <Events />},
                 { path: '/my-profile', element: <MyProfile />},
                 { path: '/join-a-family', element: <JoinAFamilyInputForm />},

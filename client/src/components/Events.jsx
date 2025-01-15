@@ -1,25 +1,25 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { useUser } from "./Adult";
+import React, {Fragment, useEffect, useState} from "react";
+import { Link, useParams, useNavigate, useOutletContext } from "react-router-dom";
 
 function Events() {
-    const { isSignedIn } = useUser();
+    const {child, setChild} = useOutletContext();
+    const {id} = useParams();
+    const [ childFiles, setChildFiles ] = useState(undefined);
+    const { files, setFiles } = useOutletContext();
+    const navigate = useNavigate();
+    const [ file, setFile ] = useState(undefined);
+
+    useEffect(() => {
+        fetch(`/events`)
+        .then((resp) => resp.json())
+        .then((data) => {
+            setChildFiles(data);
+        })
+    });
 
     return (
         <div>
             <h2>My Family's Events</h2>
-            <ul className="cards">{ isSignedIn ? 
-                <section>
-                    <p>All your events here</p>
-                </section>
-                :
-                (
-                    <section>
-                        <p>Please sign in to see all your families' events.</p>
-                        <Link to='/signin'><button className="submit-button">Sign In</button></Link>
-                    </section>
-                )}
-            </ul>
         </div>
     )
 }

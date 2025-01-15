@@ -9,6 +9,12 @@ function NewChild({isEdit = false}) {
     const navigate = useNavigate();
 
     const childToEdit = isEdit ? child.find(child => child?.id?.toString() === id?.toString()) : null;
+
+    const oldFamily = family.find((fam) => {
+        return fam.children_member.some((chld_mem) => {
+            return chld_mem?.id.toString() === id;
+        });
+    });
     
     const initialFormData = {
         firstname: childToEdit?.firstname || '',
@@ -26,7 +32,8 @@ function NewChild({isEdit = false}) {
         schoolname: childToEdit?.schoolname || '',
         favorites: childToEdit?.favorites || '',
         hates: childToEdit?.hates || '',
-        family_id: family?.[0]?.id || ''
+        family_id: family?.[0]?.id || '',
+        old_family_id: oldFamily?.id || ''
     };
 
     const [ formData, setFormData ] = useState({...initialFormData});
@@ -43,26 +50,34 @@ function NewChild({isEdit = false}) {
         })
         .then((response) => response.json())
         .then((newChild) => {
-            const data = new FormData();
-            data.append('file', image);
-            data.append('name', 'image');
-            fetch(`/children/${newChild.id}/image`, {
-                method: "POST",
-                body: data
-            })
-            .then((response) => response.json())
-            .then((image) => {
-                if (image?.filepath) {
-                    newChild.image = image.filepath;
-                }
+            if (!!image) {
+                const data = new FormData();
+                data.append('file', image);
+                data.append('name', 'image');
+                fetch(`/children/${newChild.id}/image`, {
+                    method: "POST",
+                    body: data
+                })
+                .then((response) => response.json())
+                .then((image) => {
+                    if (image?.filepath) {
+                        newChild.image = image.filepath;
+                    }
+                    const oldchildren = isExistingchild ? 
+                    child.filter((chld) => chld?.id?.toString() !== newChild?.id?.toString()) 
+                    : child;
+                    setChild([...oldchildren, newChild]);
+                    navigate(`/children/${newChild.id}`);
+                })
+                .catch(e => console.error("Error uploading child image", e));
+            } else {
                 const oldchildren = isExistingchild ? 
                 child.filter((chld) => chld?.id?.toString() !== newChild?.id?.toString()) 
                 : child;
                 setChild([...oldchildren, newChild]);
                 navigate(`/children/${newChild.id}`);
-            })
-            .catch(e => console.error("Error uploading child image", e));
-            
+            }
+
         })
         .catch((error) => console.error("Error adding new child", error));
       };

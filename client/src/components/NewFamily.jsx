@@ -8,7 +8,7 @@ function NewFamily() {
     const [ name, setName ] = useState('');
     const [ familyCreationError, setFamilyCreationError ] = useState(false);
 
-    const createFamily = () => {
+    const handleSubmitNewFamily = () => {
         fetch('/families', {
             method: "POST",
             headers: {
@@ -36,10 +36,11 @@ function NewFamily() {
         <div className="container">
             { familyCreationError && (
                 <section>
-                    Failed to create family, please refresh and try again!
+                    <h2>Failed to create family, please try again!</h2>
                 </section>
             )}
             <h2>Create a new family:</h2>
+            <form onClick={handleSubmitNewFamily}>
                 <div className="row">
                     <div className="col-25">
                         <label htmlFor="firstname">Family Name:</label>
@@ -57,9 +58,8 @@ function NewFamily() {
                         />
                     </div>
                 </div>
-            <div>
-                <button className="submit-button" onClick={createFamily}>Create Family</button>
-            </div>
+                <button className="submit-button">Create Family</button>
+            </form>
             <Link to={`/families`}><button className="submit-button">Cancel</button></Link>
         </div>
     )

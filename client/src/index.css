@@ -205,24 +205,27 @@ section {
   margin-right: auto;
 }
 
-/* .new-listing-input:invalid {
-  outline: 2px solid red;
-  &::after {
-    content: 'input invalid'
-  }
+table, th, td {
+  border: 1px solid black;
+  /* border-collapse: collapse; */
+  width: 100%;
 }
 
-.new-listing-input {
-  font-size: 18px;
-  border-radius: 5px;
-  gap: 2 rem;
+th, td {
+  padding: 15px;
+  text-align: left;
 }
 
-.new-listing-input[type=checkbox] {
-  margin-top: 13px;
-  width: 20px;
-  height: 20px; */
-/* } */
+/* tr:hover {
+  background-color: rgb(230, 213, 243);
+} */
+
+/* tr:nth-child(even) {
+  background-color: #d0bedd;
+} */
+#react-doc-viewer #image-renderer {
+  background-image: none;
+}
 
 input[type=text], input[type=password], select, textarea {
   width: 95%;
@@ -294,46 +297,12 @@ input[type=file] {
   clear: both;
 }
 
-/* .image-gallery {
-  display: grid;
-  gap: 10px;
-  grid-auto-flow: row;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-}
-
-.gallery-image-container {
-  height: 250px;
-  justify-content: center;
-  align-items: center;
-}
-
-.gallery-image {
-  height: 100%;
-  margin: 0 auto;
-  display: block;
-}
-
-.image-gallery-back-link-container {
-  margin: 25px auto 0 auto;
-  display: block;
-}
-.image-gallery-back-button {
-  margin: 0 auto;
-  display: block;
-}
-.image-gallery-back-link {
-  margin: 0 auto;
-  color: rgb(236, 240, 239);
-  text-decoration: none;
-}
-
 .single-image {
   display: block;
   margin: 0 auto;
-  min-height: 1000px;
-  min-width: 800px;
-  width: 80%
-} */
+  max-height: 800px;
+  max-width: 500px;
+}
 
 @media screen and (max-width: 600px) {
   .col-25, .col-75, input[type=submit] {

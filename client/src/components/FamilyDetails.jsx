@@ -18,7 +18,7 @@ function FamilyDetails(){
 
     const {name, invite_code, adults_member, children_member} = fam
 
-    function handleRemove() {
+    function handleRemoveFamily() {
         fetch(`/families/${id}`, {
             method: "DELETE"
         })
@@ -38,11 +38,11 @@ function FamilyDetails(){
                 <h2>{name}</h2>
                 <p>Invite Code: {invite_code}</p>
                 <Link to='/families'><button className="submit-button">Back to all families</button></Link>
-                <button onClick={handleRemove} className="submit-button">Remove Family</button>
+                <button onClick={handleRemoveFamily} className="submit-button">Remove Family</button>
             </section>
             <section>
                 <h3>Adult members:</h3>
-                <p>Adult Members: {
+                <p>{
                     adults_member.reduce((acc, adult_mem) => {
                         acc.push(`${adult_mem.firstname} ${adult_mem.lastname}`)
                         return acc;
@@ -51,12 +51,17 @@ function FamilyDetails(){
             </section>
             <section>
                 <h3>Child members:</h3>
-                <p>Child Members: {
+                <p> {
                     children_member.reduce((acc, children_mem) => {
                         acc.push(`${children_mem.firstname} ${children_mem.lastname}`)
                         return acc;
                     }, []).join(', ')}
                 </p>
+            </section>
+            <section>
+                <h3>Events</h3>
+                <Link to='/events'><button className="submit-button">See all my Events</button></Link>
+                <p>Event here</p>
             </section>
         </div>
     )

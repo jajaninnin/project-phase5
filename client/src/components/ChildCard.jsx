@@ -6,9 +6,7 @@ function ChildCard({id, image, firstname, lastname, nickname, birthday, age,
     return(
         <div className="card">
             <img className="card-image" src={image} alt={firstname} />
-            <ul className="card-ul">
-                <li>{firstname} {lastname}, {age}</li>
-            </ul>
+            <h3>{firstname} {lastname}, {age} </h3>
             <Link to={`/children/${id}`}><button className="submit-button">More Details</button></Link>
         </div>
     )

@@ -1,21 +1,38 @@
-import React, {Fragment} from "react";
-import { Link, useOutletContext } from "react-router-dom";
+import React, {Fragment, useState} from "react";
+import { useOutletContext, Link, useNavigate, useParams } from "react-router-dom";
 import { useUser } from "./Adult";
 
-function MyProfile(){
+function MyProfile(isEdit = false){
     const { user } = useUser();
     const { family } = useOutletContext();
+    const { id } = useParams();
+    const navigate = useNavigate();
+
     const fams = family.filter(fmly => fmly.adults_member.some(adult_mem => user?.id === adult_mem?.id));
+        
+    const initialFormData = {
+        firstname: user?.firstname || '',
+        lastname: user?.lastname || '',
+        age: user?.age || '',
+        role: user?.role || '',
+        username: user?.username || '',
+        password: '',
+    };
+    
+    const [ formData, setFormData ] = useState({...initialFormData}); 
+
     function handleUserUpdate() {
         fetch(`/myprofile/edit`, {
             method: "PATCH",
-            // body: 
+            headers: {
+                "Content-Type": "Application/JSON",
+            },
+            body: JSON.stringify({user_id: user?.id }),
         })
         .then((resp) => resp.json())
-        .then(() => {
-            
-        })
+        .then((data) => console.log(data))
     }
+
     if (!user) {
         return (
             <div className="details">
@@ -30,9 +47,9 @@ function MyProfile(){
                 <h2>{firstname} {lastname}, {age} </h2>
                 <p>First Name: {firstname}</p>
                 <p>Last Name: {lastname}</p>
-                <p>Nickname: {role}</p>
-                <p>Birthday: {username}</p>
+                <p>Role: {role}</p>
                 <p>Age: {age}</p>
+                <p>Username: {username}</p>
                 <Link to='/user-update'><button className="submit-button" onClick={handleUserUpdate}>Edit my profile</button></Link>
             </section>
             <section>
