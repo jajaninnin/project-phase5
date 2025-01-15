@@ -1,8 +1,8 @@
 """init
 
-Revision ID: a8072e7b2708
+Revision ID: 4f278a4054a2
 Revises: 
-Create Date: 2025-01-09 11:15:11.129059
+Create Date: 2025-01-14 16:49:37.506298
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 from sqlalchemy.dialects import postgresql
 
 # revision identifiers, used by Alembic.
-revision = 'a8072e7b2708'
+revision = '4f278a4054a2'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -31,7 +31,7 @@ def upgrade():
     )
     op.create_table('children',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('image', sa.String(), nullable=False),
+    sa.Column('image', sa.String(), nullable=True),
     sa.Column('firstname', sa.String(), nullable=False),
     sa.Column('lastname', sa.String(), nullable=False),
     sa.Column('nickname', sa.String(), nullable=False),
@@ -62,8 +62,8 @@ def upgrade():
     sa.Column('date', sa.Date(), nullable=False),
     sa.Column('start_time', sa.Time(), nullable=False),
     sa.Column('end_time', sa.Time(), nullable=False),
-    sa.Column('owner_id', sa.Integer(), nullable=False),
-    sa.Column('owner_type', sa.String(), nullable=False),
+    sa.Column('member_id', sa.Integer(), nullable=False),
+    sa.Column('member_type', postgresql.ENUM('adult', 'child', name='member_types'), nullable=False),
     sa.Column('family_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['family_id'], ['families.id'], name=op.f('fk_events_family_id_families')),
     sa.PrimaryKeyConstraint('id')
@@ -79,11 +79,10 @@ def upgrade():
     op.create_table('files',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('filename', sa.String(), nullable=False),
-    sa.Column('filedate', sa.Date(), nullable=False),
+    sa.Column('filedate', sa.DateTime(), nullable=False),
     sa.Column('child_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['child_id'], ['children.id'], name=op.f('fk_files_child_id_children')),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('filename')
+    sa.PrimaryKeyConstraint('id')
     )
     # ### end Alembic commands ###
 

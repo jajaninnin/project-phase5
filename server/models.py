@@ -237,6 +237,12 @@ class Family(db.Model, SerializerMixin):
         if not value or (len(value) < 1):
             raise ValueError('Family must have an invite code')
         return value
+    
+    @validates('name')
+    def validate_name(self, key, value):
+        if not value or (len(value) < 1):
+            raise ValueError('Family must have a name')
+        return value
 
 class File(db.Model, SerializerMixin):
     __tablename__ = 'files'
@@ -266,12 +272,26 @@ class Event(db.Model, SerializerMixin):
     date = db.Column(db.Date, nullable=False)
     start_time = db.Column(db.Time, nullable=False)
     end_time = db.Column(db.Time, nullable=False)
-    owner_id = db.Column(db.Integer, nullable=False)
-    owner_type = db.Column(db.String, nullable=False)
+    member_id = db.Column(db.Integer, nullable=False)
+    member_type = db.Column(ENUM('adult', 'child', name='member_types'), nullable=False)
     family_id = db.Column(db.Integer, db.ForeignKey('families.id'))
 
     family = db.relationship('Family', back_populates='events')
 
+    serialize_rules = ('-families', )
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'date': self.date,
+            'start_time': self.start_time,
+            'end_time': self.end_time,
+            'family_id': self.family_id,
+            'member_id': self.member_id,
+            'member_type': self.member_type,
+        }
+   
     @validates('name')
     def validate_name(self, key, value):
         if not value or (len(value) < 1):

@@ -86,7 +86,7 @@ with app.app_context():
         families.append(family)
     
     blended_family = Family(
-        name=f'{list_adults[0]["lastname"]} blended family',
+        name=f'{list_adults[0]["lastname"]} blended',
         invite_code=str(uuid.uuid4())
     )
     families.append(blended_family)

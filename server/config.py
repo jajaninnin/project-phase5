@@ -13,10 +13,10 @@ import os
 # Local imports
 
 # Instantiate app, set attributes
-app = Flask(__name__, static_folder='images')
+app = Flask(__name__, static_folder='files')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-upload_folder = os.path.join('images')
+upload_folder = os.path.join('files')
 app.config['UPLOAD'] = upload_folder
 app.json.compact = False
 

@@ -176,14 +176,17 @@ class ChildrenById(Resource):
         try:
             child = db.session.execute(db.select(Child).filter_by(id=id)).scalar_one()
             param = request.json
+            child_family_membership = db.session.execute(db.select(FamilyMember).filter_by(member_id=id, family_id=param['old_family_id'], member_type='child')).scalar_one()
+            setattr(child_family_membership, 'family_id', param['family_id'])
             for attr in param:
-                if attr == 'birthday':
+                if attr == 'family_id' or attr == 'old_family_id':
+                    pass
+                elif attr == 'birthday':
                     setattr(child, attr, parser.parse(param[attr]))
                 else:    
                     setattr(child, attr, param[attr])
             db.session.commit()
-            new_child = db.session.execute(db.select(Child).filter_by(id=id)).scalar_one()
-            return make_response(new_child.to_dict(), 202)
+            return make_response(child.to_dict(), 202)
         except NoResultFound:
             return make_response({'error': 'Child not found'}, 404)
         except Exception as e:
@@ -246,13 +249,10 @@ class Families(Resource):
             return make_response({'error': ['validation errors']}, 400)
     
     def post(self):
-        print('uuid0?', uuid.uuid4())
         try:
             user_id = session.get('user_id')
-            print('uuid1?', uuid.uuid4())
             if user_id:
                 param = request.json
-                print('uuid2?', uuid.uuid4())
                 new_family = Family(
                     name=param['name'],
                     invite_code=str(uuid.uuid4())
@@ -368,7 +368,7 @@ class FilesByChildId(Resource):
                 )
                 db.session.add(newFile)
                 db.session.commit()
-                return make_response({'filepath': f"/{os.path.join(app.config['UPLOAD'], filename)}", 'id': newFile.id, 'child_id': id}, 200)
+                return make_response(newFile.to_dict(), 200)
             else:
                 print(f'error occured: {e}')
                 return make_response({'error': 'file wrong file extension'}, 404)
@@ -378,7 +378,7 @@ class FilesByChildId(Resource):
     
     def delete(self, id):
         try:
-            db.session.query(File).filter_by(child_id = id).delete()
+            db.session.query(File).filter_by(id = id).delete()
             db.session.commit()
             return make_response(jsonify(''), 204)
         except Exception as e:
@@ -393,7 +393,7 @@ class Events(Resource):
         try:
             events = db.session.execute(db.select(Event)).scalars()
             event = [event.to_dict() for event in events]
-            return make_response(events)
+            return make_response(event)
         except Exception as e:
             print(f'error occured: {e}')
             return make_response({'error': 'events not found'}, 404)
@@ -406,8 +406,8 @@ class Events(Resource):
                 date=parser.parse(param['date']),
                 start_time=parser.parse(param['start_time']),
                 end_time=parser.parse(param['end_time']),
-                owner_id=param['owner_id'],
-                owner_type=param['owner_type']
+                member_id=param['member_id'],
+                member_type=param['member_type']
             )
             db.session.add(new_event)
             db.session.commit()
