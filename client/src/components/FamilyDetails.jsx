@@ -31,30 +31,6 @@ function FamilyDetails(){
         })
     }
 
-    // useEffect(() => {
-    //     if (!hasSentJoinFamilyRequest.current) {
-    //         hasSentJoinFamilyRequest.current = true;
-    //         fetch(`/join-family/${inviteCode}`, {
-    //             method: "DELETE"
-    //         }).then(resp => {
-    //             if (resp.ok) {
-    //                 setTimeout(() => {
-    //                     hasSentJoinFamilyRequest.current = false;
-    //                     navigate('/families', { replace: true });
-    //                 }, 1000);
-    //             } else {
-    //                 console.error('error joining family');
-    //                 setFamilyJoinError(true);
-    //             }
-    //         })
-    //         .catch(() => {
-    //             console.error('error joining family');
-    //             setFamilyJoinError(true);
-    //         });
-    //     }
-    // // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [inviteCode]);
-
     function handleLeaveFamily() {
         fetch(`/leavefamily/${id}`, {
             method: "DELETE"
@@ -95,11 +71,10 @@ function FamilyDetails(){
                     </div>
                 ))}
             </section>
-            {/* <section>
+            <section className="container-1">
                 <h3>Events</h3>
                 <Link to='/events'><button className="submit-button">See all my Events</button></Link>
-                <p>Event here</p>
-            </section> */}
+            </section>
         </div>
     )
 }

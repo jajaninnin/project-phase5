@@ -19,7 +19,7 @@ function ChildDetails(){
     const chld = child.find((chld) => chld?.id?.toString() === id.toString());
     if (!chld) {
         return (
-            <div className="details">
+            <div className="container-1">
                 <h4>Failed to find child details!</h4>
                 <Link to='/children'><button className="submit-button">Back to all children</button></Link>
             </div>    

@@ -6,32 +6,7 @@ function MyProfile(isEdit = false){
     const { user } = useUser();
     const { family } = useOutletContext();
 
-
     const fams = family.filter(fmly => fmly.adults_member.some(adult_mem => user?.id === adult_mem?.id));
-    // console.log(fams.children_member.firstname)
-        
-    // const initialFormData = {
-    //     firstname: user?.firstname || '',
-    //     lastname: user?.lastname || '',
-    //     age: user?.age || '',
-    //     role: user?.role || '',
-    //     username: user?.username || '',
-    //     password: '',
-    // };
-    
-    // const [ formData, setFormData ] = useState({...initialFormData}); 
-
-    // function handleUserUpdate() {
-    //     fetch(`/my-profile/edit`, {
-    //         method: "PATCH",
-    //         headers: {
-    //             "Content-Type": "Application/JSON",
-    //         },
-    //         body: JSON.stringify({user_id: user?.id }),
-    //     })
-    //     .then((resp) => resp.json())
-    //     .then((data) => console.log(data))
-    // }
 
     if (!user) {
         return (
@@ -57,19 +32,30 @@ function MyProfile(isEdit = false){
                 <h3>My Family</h3>
                 { fams.map((fam) => (
                     <Fragment key={fam.id}>
-                        <p>{fam.name} Family</p>
-                        <p>Invite Code: {`http://${window.location.host}/join-a-family/${fam.invite_code}`}</p>
-                        <br/>
-                        <p>Adults:</p>
-                        {fam.adults_member.map(adult => (
-                            <p key={`adult_${adult.id}`}>{`${adult.firstname} ${adult.lastname}`}</p>
-                        ))}
-                        <br/>
-                        <p>Children:</p>
-                        {fam.children_member.map(child => (
-                            <p key={`child_${child.id}`}>{`${child.firstname} ${child.lastname}`}</p>
-                        ))}
-                        <br/>
+                        <div>
+                            <p>{fam.name} Family</p>
+                            <p>Invite Code: {`http://${window.location.host}/join-a-family/${fam.invite_code}`}</p>
+                            <br/>
+                            <p>Adults:</p>
+                                <div>
+                                    <table>
+                                        <tr>
+                                            <th>Adults</th>
+                                            <th>Children</th>
+                                        </tr>
+                                        {fam.adults_member.map(adult => (
+                                        <tr>
+                                            <td>{`${adult.firstname} ${adult.lastname}`}</td>
+                                        </tr>
+                                        ))}
+                                        {fam.children_member.map(child => (
+                                        <tr>
+                                            <td>{`${child.firstname} ${child.lastname}`}</td>
+                                        </tr>
+                                        ))}
+                                    </table>
+                                </div>
+                        </div>
                     </Fragment>  
                 ))}
             </section>

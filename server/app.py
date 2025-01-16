@@ -412,8 +412,8 @@ class Events(Resource):
                 date=parser.parse(param['date']),
                 start_time=parser.parse(param['start_time']),
                 end_time=parser.parse(param['end_time']),
-                member_id=param['member_id'],
-                member_type=param['member_type']
+                owner=param['owner'],
+                family_id=param['family_id']
             )
             db.session.add(new_event)
             db.session.commit()
@@ -425,13 +425,13 @@ class Events(Resource):
 api.add_resource(Events, '/events')
 
 class EventsById(Resource):
-    def get(self, id):
-        try:
-            event = db.session.execute(db.select(Event).filter_by(id=id)).scalar_one()
-            return make_response(event.to_dict())
-        except Exception as e:
-            print(f'error occured: {e}')
-            return make_response({'error': 'Event not found'}, 404)
+    # def get(self, id):
+    #     try:
+    #         event = db.session.execute(db.select(Event).filter_by(id=id)).scalar_one()
+    #         return make_response(event.to_dict())
+    #     except Exception as e:
+    #         print(f'error occured: {e}')
+    #         return make_response({'error': 'Event not found'}, 404)
         
     def patch(self, id):
         try:
