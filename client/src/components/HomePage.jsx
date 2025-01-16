@@ -5,10 +5,12 @@ import { useUser } from "./Adult";
 function Home() {
     const { signedIn } = useUser();
 
+    // ParentPortal ChildSync ParentPulse CuddleCloud
+
     return (
         <div className="home">
             <section className="section-title">
-                <h1 className="title">Baby Files</h1>
+                <h1 className="title">ParentPortal</h1>
                 <h2 className="title-h2">your new co-parenting tool</h2>
             </section>
             <div className="container-1">

@@ -38,6 +38,7 @@ function Header() {
                 <NavLink className="headerlink" to='/'>Home</NavLink>
                 <NavLink className="headerlink" to='/families'>Family</NavLink>
                 <NavLink className="headerlink" to='/children'>Child</NavLink>
+                <NavLink className="headerlink" to='/events'>Events</NavLink>
                 <NavLink className="headerlink" to='/my-profile'>My Profile</NavLink>
                 {!signedIn ? 
                 (<NavLink className="headerlink" to='/signin'>Sign In</NavLink>) :
