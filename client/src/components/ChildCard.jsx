@@ -7,7 +7,7 @@ function ChildCard({id, image, firstname, lastname, nickname, birthday, age,
         <div className="card">
             <img className="card-image" src={image} alt={firstname} />
             <h3>{firstname} {lastname}, {age} </h3>
-            <Link to={`/children/${id}`}><button className="submit-button">More Details</button></Link>
+            <Link to={`/children/${id}`}><button className="card-button">More Details</button></Link>
         </div>
     )
 }

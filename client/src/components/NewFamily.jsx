@@ -34,32 +34,34 @@ function NewFamily() {
       };
 
     return (
-        <div className="container">
+        <div>
             { familyCreationError && (
                 <section>
                     <h2>Failed to create family, please try again!</h2>
                 </section>
             )}
-            <h2>Create a new family:</h2>
-            <div className="row">
-                <div className="col-25">
-                    <label htmlFor="firstname">Family Name:</label>
+            <section>
+                <h2>Create a new family:</h2>
+                <div className="row">
+                    <div className="col-25">
+                        <label htmlFor="firstname">Family Name:</label>
+                    </div>
+                    <div className="col-75">
+                        <input
+                            required
+                            className="new-child-input"
+                            type='text'
+                            name='name'
+                            placeholder="family name here"
+                            minLength="1"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                        />
+                    </div>
                 </div>
-                <div className="col-75">
-                    <input
-                        required
-                        className="new-child-input"
-                        type='text'
-                        name='name'
-                        placeholder="family name here"
-                        minLength="1"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                    />
-                </div>
-            </div>
-            <button className="submit-button" onClick={handleSubmitNewFamily}>Create Family</button>
-            <Link to={`/families`}><button className="submit-button">Cancel</button></Link>
+                <button className="submit-button" onClick={handleSubmitNewFamily}>Create Family</button>
+                <Link to={`/families`}><button className="submit-button">Cancel</button></Link>
+            </section>
         </div>
     )
 }

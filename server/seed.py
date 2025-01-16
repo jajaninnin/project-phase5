@@ -4,13 +4,15 @@
 from random import random, randint, choice as rc
 import random
 import uuid
+import time
+from datetime import datetime
 
 # Remote library imports
 from faker import Faker
 
 # Local imports
 from app import app
-from models import db, Adult, Child, Family, FamilyMember
+from models import db, Adult, Child, Family, FamilyMember, Event
 
 with app.app_context():
     fake = Faker()
@@ -170,6 +172,38 @@ with app.app_context():
     family_members.extend([blended_adult1, blended_adult2, blended_kid1, blended_kid2, blended_kid3, blended_kid4])
 
     db.session.add_all(family_members)
+    db.session.commit()
+
+    Event.query.delete()
+    events = []
+    for n in range(3):
+        event1 = Event(
+            name = fake.word(),
+            date = fake.future_date(),
+            start_time = f"{random.randint(0, 11)}:{random.randint(0, 59)}:{random.randint(0, 59)}",
+            end_time = f"{random.randint(12, 23)}:{random.randint(0, 59)}:{random.randint(0, 59)}",
+            owner = list_adults[n*2]['id'],
+            family_id = list_families[n]['id']
+        )
+        event2 = Event(
+            name = fake.word(),
+            date = fake.future_date(),
+            start_time = f"{random.randint(0, 11)}:{random.randint(0, 59)}:{random.randint(0, 59)}",
+            end_time = f"{random.randint(12, 23)}:{random.randint(0, 59)}:{random.randint(0, 59)}",
+            owner = list_adults[n*2]['id'],
+            family_id = list_families[n]['id']
+        )
+        event3 = Event(
+            name = fake.word(),
+            date = fake.future_date(),
+            start_time = f"{random.randint(0, 11)}:{random.randint(0, 59)}:{random.randint(0, 59)}",
+            end_time = f"{random.randint(12, 23)}:{random.randint(0, 59)}:{random.randint(0, 59)}",
+            owner = list_adults[n*2]['id'],
+            family_id = list_families[n]['id']
+        )
+        events.extend([event1, event2, event3])
+    
+    db.session.add_all(events)
     db.session.commit()
 
     # Make like two unique sets of events and just loop them between the families, and maybe give the blended family a unique set?

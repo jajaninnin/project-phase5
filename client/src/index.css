@@ -4,6 +4,24 @@ body {
   margin-right: 0;
 }
 
+/* ========================
+      HOME PAGE
+=========================== */
+
+.home h1 {
+  font-size: 120px;
+  color: #491a9f;
+  text-align: center;
+  word-spacing: 15px;
+  margin-bottom: 50px;
+}
+
+h2 {
+  font-size: 30px;
+  color: black;
+  text-align: center;
+}
+
 .title-nav {
   color: white;
   padding-right: 5px;
@@ -19,19 +37,26 @@ body {
   font-size: 50px;
 }
 
+/* ========================
+    HEADER AND FOOTER
+=========================== */
+
 .header {
-  position: relative;
+  /* position: relative; */
   display: flex;
   left: 0;
   bottom: 10px;
   width: 100%;
   max-height: 20%;
-  background-color: rgb(56, 17, 71);
+  background-color: #00263e;
   padding-bottom: 20px;
   padding-top: 20px;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 20px
+  margin-bottom: 20px;
+  /* overflow: hidden;
+  flex-direction: column;
+  vertical-align: baseline; */
 }
 
 .headerlinks {
@@ -58,7 +83,7 @@ body {
   left: 0;
   bottom: 0;
   width: 100%;
-  background-color: rgb(56, 17, 71);
+  background-color: #00263e;
   color: white;
   text-align: center;
   padding-bottom: 20px;
@@ -66,10 +91,14 @@ body {
   margin-top: 30px;
 }
 
+/* ========================
+        CARDS
+=========================== */
+
 .cards {
   list-style: none;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 2rem;
   margin-bottom: 20px;
   padding-right: 2rem;
@@ -79,15 +108,17 @@ body {
   background-color: white;
   padding: 1rem;
   border-radius: 8px;
-  box-shadow: 0 4px 6px rgb(241, 210, 186);
+  box-shadow: 0 4px 6px rgb(146, 129, 115);
   text-align: center;
   transition: box-shadow 0.3s ease, transform 0.3s ease;
   margin-bottom: 20px;
   position: relative;
+  min-height: 300px;
+  min-width: 300px;
 }
 
 .card:hover {
-  box-shadow: 0 8px 16px rgb(149, 65, 65);
+  box-shadow: 0 8px 16px rgb(130, 68, 68);
   transform: translateY(-5px);
 }
 
@@ -106,26 +137,16 @@ body {
   justify-content: center;
 }
 
-.home h1 {
-  font-size: 120px;
-  color: #682bd7;
-  text-align: center;
-  word-spacing: 15px;
-  margin-bottom: 50px;
-}
-
-h2 {
-  font-size: 30px;
-  color: black;
-  text-align: center;
-}
+/* ========================
+        BUTTONS
+=========================== */
 
 .submit-button {
   font-family: 'Georgia', serif;
-  background-color: #390a96;
+  background-color: rgb(68, 85, 116);
   color: rgb(236, 240, 239);
   font-size: 18px;
-  border-radius: 5px;
+  border-radius: 2px;
   cursor: pointer;
   margin-top: 5px;
   margin-bottom: 5px;
@@ -156,8 +177,81 @@ h2 {
   box-shadow: 0 0 5px 2px #280cca;
 }
 
+.card-button {
+  border: none;
+  outline: 0;
+  display: inline-block;
+  padding: 8px;
+  color: white;
+  background-color: #210a26;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+  font-size: 18px;
+}
+
+.card-button:hover{
+  opacity: 0.8;
+}
+
+/* ========================
+        CONTAINERS
+=========================== */
+
+/* .container {
+  position: absolute;
+  inset: 0px;
+  cursor: default;
+  display: block;
+  --webkit-box-pack: center;
+  --webkit-box-align: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 0px;
+  margin-bottom: 0px;
+} */
+
+.container-1 {
+  border-radius: 5px;
+  background-color: rgb(219, 223, 220);
+  width: 100%;
+  margin: 0 auto;
+  padding: 30px;
+  max-width: 1300px;
+}
+
+.container-2 {
+  border-radius: 5px;
+  background-color: #faf7f1;
+  width: 100%;
+  margin: auto;
+  padding: 30px;
+  max-width: 1300px;
+}
+
+.container-3 {
+  border-radius: 5px;
+  background-color: white;
+  width: 100%;
+  margin: auto;
+  padding: 30px;
+  max-width: 1300px;
+}
+
+.content {
+  max-width: 1440px;
+  margin: 0px auto;
+  display: block;
+  --webkit-box-align: center;
+  --webkit-box-pack: center;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+} 
+
 section {
-  width: 90%;
+  width: 100%;
   margin: auto;
   display: block;
   box-sizing: inherit;
@@ -170,9 +264,10 @@ section {
   text-align: left;
 }
 
-.main-details-section {
-  text-align: center;
-}
+
+/* ========================
+        IMAGES
+=========================== */
 
 .detail-image {
   width: 100%;
@@ -183,12 +278,20 @@ section {
 }
 
 .card-image {
-  width: auto;
-  height: 100%;
+  width: 200px;
+  height: auto;
   max-height: 130px;
   max-width: 100%;
   margin-left: auto;
   margin-right: auto;
+}
+
+/* ========================
+        TABLE
+=========================== */
+
+table {
+  table-layout: fixed;
 }
 
 table, th, td {
@@ -201,6 +304,13 @@ th, td {
   padding: 15px;
   text-align: left;
 }
+
+th{
+  width: 20%;
+}
+/* th.colb {
+  width: 80%;
+} */
 /* 
 tr:hover {
   background-color: rgb(230, 213, 243);
@@ -209,6 +319,10 @@ tr:hover {
 #react-doc-viewer #image-renderer {
   background-image: none;
 }
+
+/* ========================
+      INPUT FORMS
+=========================== */
 
 input[type=text], input[type=password], select, textarea {
   width: 95%;
@@ -252,15 +366,6 @@ input[type=file] {
   font-size: 18px;
 }
 
-.container {
-  border-radius: 5px;
-  background-color: #f5f8f6;
-  padding: 20px;
-  width: 90%;
-  margin: auto;
-  padding: 30px;
-}
-
 .col-25 {
   float: left;
   width: 20%;
@@ -287,7 +392,9 @@ input[type=file] {
   max-width: 500px;
 }
 
-
+/* ========================
+      RESPONSIVE DESIGN
+=========================== */
 
 @media screen and (max-width: 600px) {
   .col-25, .col-75, input[type=submit] {

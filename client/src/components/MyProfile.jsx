@@ -1,12 +1,11 @@
-import React, {Fragment, useState} from "react";
-import { useOutletContext, Link, useNavigate, useParams } from "react-router-dom";
+import React, { Fragment } from "react";
+import { useOutletContext, Link } from "react-router-dom";
 import { useUser } from "./Adult";
 
 function MyProfile(isEdit = false){
     const { user } = useUser();
     const { family } = useOutletContext();
-    const { id } = useParams();
-    const navigate = useNavigate();
+
 
     const fams = family.filter(fmly => fmly.adults_member.some(adult_mem => user?.id === adult_mem?.id));
     // console.log(fams.children_member.firstname)
@@ -60,6 +59,16 @@ function MyProfile(isEdit = false){
                     <Fragment key={fam.id}>
                         <p>{fam.name} Family</p>
                         <p>Invite Code: {`http://${window.location.host}/join-a-family/${fam.invite_code}`}</p>
+                        <br/>
+                        <p>Adults:</p>
+                        {fam.adults_member.map(adult => (
+                            <p key={`adult_${adult.id}`}>{`${adult.firstname} ${adult.lastname}`}</p>
+                        ))}
+                        <br/>
+                        <p>Children:</p>
+                        {fam.children_member.map(child => (
+                            <p key={`child_${child.id}`}>{`${child.firstname} ${child.lastname}`}</p>
+                        ))}
                         <br/>
                     </Fragment>  
                 ))}

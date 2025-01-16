@@ -200,7 +200,7 @@ class Family(db.Model, SerializerMixin):
     name = db.Column(db.String, nullable=False)
     invite_code = db.Column(db.String, nullable=False, unique=True)
 
-    events = db.relationship('Event', back_populates='family', cascade='all, delete-orphan')
+    # events = db.relationship('Event', back_populates='family', cascade='all, delete-orphan')
 
     adults_member = db.relationship(
         'Adult',
@@ -264,34 +264,21 @@ class File(db.Model, SerializerMixin):
         if not value:
             raise ValueError('File')
         return value
-
+    
 class Event(db.Model, SerializerMixin):
     __tablename__ = 'events'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
     date = db.Column(db.Date, nullable=False)
-    start_time = db.Column(db.Time, nullable=False)
-    end_time = db.Column(db.Time, nullable=False)
-    member_id = db.Column(db.Integer, nullable=False)
-    member_type = db.Column(ENUM('adult', 'child', name='member_types'), nullable=False)
-    family_id = db.Column(db.Integer, db.ForeignKey('families.id'))
+    start_time = db.Column(db.String, nullable=False)
+    end_time = db.Column(db.String, nullable=False)
+    owner = db.Column(db.Integer, db.ForeignKey('adults.id'))
+    family_id = db.Column(db.Integer, db.ForeignKey('families.id'), nullable=False)
 
-    family = db.relationship('Family', back_populates='events')
+    # family = db.relationship('Family', back_populates='events')
 
-    serialize_rules = ('-families', )
-
-    def to_dict(self):
-        return {
-            'id': self.id,
-            'name': self.name,
-            'date': self.date,
-            'start_time': self.start_time,
-            'end_time': self.end_time,
-            'family_id': self.family_id,
-            'member_id': self.member_id,
-            'member_type': self.member_type,
-        }
-   
+    # serialize_rules = ('-adults', '-children', '-familymembers', '-files')
+  
     @validates('name')
     def validate_name(self, key, value):
         if not value or (len(value) < 1):

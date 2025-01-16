@@ -391,12 +391,18 @@ api.add_resource(FilesByChildId, '/child-files/<int:id>')
 class Events(Resource):
     def get(self):
         try:
-            events = db.session.execute(db.select(Event)).scalars()
-            event = [event.to_dict() for event in events]
-            return make_response(event)
+            user_id = session.get('user_id')
+            family_memberships = db.session.execute(db.select(FamilyMember).filter_by(member_id=user_id, member_type="adult")).scalars()
+            list_events = []
+            if user_id:
+                for fam_mem in family_memberships:
+                    events = db.session.execute(db.select(Event).filter_by(family_id=fam_mem.family_id)).scalars()
+                    list_events += [n.to_dict() for n in events]
+                return make_response(list_events)
+            return make_response({'error': 'No authorization'}, 401)
         except Exception as e:
-            print(f'error occured: {e}')
-            return make_response({'error': 'events not found'}, 404)
+                    print(f'error occured: {e}')
+                    return make_response({'error': ['validation errors']}, 400)
     
     def post(self):
         try:
@@ -471,7 +477,7 @@ class JoinFamily(Resource):
                 print('is this happening a bunch of times 3?')
                 db.session.add(new_family_member)
                 db.session.commit()
-                return make_response({'message': 'Successfully joined family'}, 200)
+                return make_response(family.to_dict(), 200)
             return make_response({'error': 'No authorization'}, 401)
         except Exception as e:
             print(f'error occured: {e}')
@@ -479,6 +485,23 @@ class JoinFamily(Resource):
         
 
 api.add_resource(JoinFamily, '/join-family/<string:invite_code>')
+
+class LeaveFamily(Resource):
+    def delete(self, id):
+        try:
+            user_id = session.get('user_id')
+            if user_id:
+                family = db.session.execute(db.select(Family).filter_by(id=id)).scalar_one()
+                family_member = db.session.execute(db.select(FamilyMember).filter_by(family_id=family.id, member_id=user_id, member_type='adult')).scalar()
+                db.session.delete(family_member)
+                db.session.commit()
+                return make_response(jsonify(''), 204)
+            return make_response({'error': 'No authorization'}, 401)
+        except Exception as e:
+            print(f'error occured: {e}')
+            return make_response({'error': 'Family not found'}, 404)
+        
+api.add_resource(LeaveFamily, '/leavefamily/<int:id>')
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

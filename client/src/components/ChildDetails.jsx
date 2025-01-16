@@ -77,14 +77,14 @@ function ChildDetails(){
         topsize, pantssize, dresssize, shoesize, schoollevel, schoolname, favorites, hates} = chld
     
     return(
-        <div className="details">
-            <section className="details-section">
+        <div>
+            <section className="container-1">
                 <img className="single-image" src={image} alt={firstname} />
                 <h2>{firstname} {lastname}, {age} </h2>
                 <table>
                     <tr>
-                        <td>First Name</td>
-                        <td>{firstname}</td>
+                        <td className="cola">First Name</td>
+                        <td className="colb">{firstname}</td>
                     </tr>
                     <tr>
                         <td>Last Name</td>
@@ -145,11 +145,11 @@ function ChildDetails(){
                 </table>
                 <Link to='/children'><button className="submit-button">Back to all children</button></Link>
             </section>
-            <section>
+            <section className="container-2">
                 <Link to={`/children/${id}/edit`}><button className="submit-button">Edit Child info</button></Link>
                 <button onClick={handleRemoveChild} className="submit-button">Remove Child</button>
             </section>
-            <section>
+            <section className="container-3">
                 <h3>Add a new file</h3>
                 <form onSubmit={handleSubmit}>
                     <div className="row">
@@ -175,7 +175,7 @@ function ChildDetails(){
                     </div>
                 </form>
             </section>
-            <section>
+            <section className="container-1">
                 <h3>{firstname}'s Files</h3>
                 <table>
                     <tr>

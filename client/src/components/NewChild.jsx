@@ -99,7 +99,7 @@ function NewChild({isEdit = false}) {
     };
 
     return (
-        <div className="container">
+        <div>
             <h2>{!!childToEdit ? 'Edit child:' : 'Add a new child:'}</h2>
             <form onSubmit={handleSubmit}>
                 <div className="row">

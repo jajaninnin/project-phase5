@@ -4,28 +4,34 @@ import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 function JoinAFamily() {
     const navigate = useNavigate();
     const { inviteCode } = useParams();
-    const { setFamily } = useOutletContext;
+    const { family, setFamily } = useOutletContext();
     const [familyJoinError, setFamilyJoinError] = useState(false);
     const hasSentJoinFamilyRequest = useRef(false);
+    
     useEffect(() => {
         if (!hasSentJoinFamilyRequest.current) {
             hasSentJoinFamilyRequest.current = true;
             fetch(`/join-family/${inviteCode}`, {
                 method: "POST"
-            }).then(resp => {
-                if (resp.ok) {
-                    setTimeout(() => {
-                        hasSentJoinFamilyRequest.current = false;
-                        navigate('/families', { replace: true });
-                    }, 1000);
+            })
+            .then(resp => resp.json())
+            .then(data => {
+                if (!!data) {
+                    setFamily([...family, data]);
                 } else {
                     console.error('error joining family');
                     setFamilyJoinError(true);
                 }
             })
-            .catch(() => {
-                console.error('error joining family');
+            .catch((error) => {
+                console.error('error joining family', error);
                 setFamilyJoinError(true);
+            })
+            .finally(() => {
+                setTimeout(() => {
+                    hasSentJoinFamilyRequest.current = false;
+                    navigate('/families', { replace: true });
+                }, 1000);
             });
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -34,7 +40,7 @@ function JoinAFamily() {
     if (familyJoinError) {
         return (
             <section>
-                Failed to join family, please refresh and try again!
+                Failed to join family, please try again! Navigating you back to your families!
             </section>
         );
     }

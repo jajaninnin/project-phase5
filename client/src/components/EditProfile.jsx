@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { useOutletContext, Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useUser } from "./Adult";
 
 function EditProfile({isEdit = false}) {
     const { user, setUser } = useUser();
-    const { id } = useParams();
     const navigate = useNavigate();
 
     const initialFormData = {
