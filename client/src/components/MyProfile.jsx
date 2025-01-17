@@ -18,8 +18,8 @@ function MyProfile(isEdit = false){
     const { firstname, lastname, role, username, age } = user;
 
     return(
-        <div className="details">
-            <section className="details-section">
+        <div>
+            <section className="container-1">
                 <h2>{firstname} {lastname}, {age} </h2>
                 <p>First Name: {firstname}</p>
                 <p>Last Name: {lastname}</p>
@@ -28,12 +28,13 @@ function MyProfile(isEdit = false){
                 <p>Username: {username}</p>
                 <Link to='/my-profile/edit'><button className="submit-button">Edit my profile</button></Link>
             </section>
-            <section>
-                <h3>My Family</h3>
+            <section className="container-3">
+                <h2>My Family</h2>
+            </section>
                 { fams.map((fam) => (
                     <Fragment key={fam.id}>
-                        <div>
-                            <p>{fam.name} Family</p>
+                        <section className="container-2">
+                            <h3>{fam.name} Family</h3>
                             <p>Invite Code: {`http://${window.location.host}/join-a-family/${fam.invite_code}`}</p>
                             <br/>
                             <p>Adults:</p>
@@ -43,22 +44,21 @@ function MyProfile(isEdit = false){
                                             <th>Adults</th>
                                             <th>Children</th>
                                         </tr>
-                                        {fam.adults_member.map(adult => (
                                         <tr>
-                                            <td>{`${adult.firstname} ${adult.lastname}`}</td>
+                                            <td>{fam.adults_member.map(adult => (
+                                                <p>{`${adult.firstname} ${adult.lastname}, ${adult.role}`}</p>
+                                                ))}
+                                            </td>
+                                            <td>{fam.children_member.map(child => (
+                                                <p>{`${child.firstname} ${child.lastname}, ${child.age}`}</p>
+                                                ))}
+                                            </td>
                                         </tr>
-                                        ))}
-                                        {fam.children_member.map(child => (
-                                        <tr>
-                                            <td>{`${child.firstname} ${child.lastname}`}</td>
-                                        </tr>
-                                        ))}
                                     </table>
                                 </div>
-                        </div>
+                        </section>
                     </Fragment>  
                 ))}
-            </section>
         </div>
     )
 }

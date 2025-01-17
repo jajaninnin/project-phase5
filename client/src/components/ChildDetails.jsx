@@ -175,7 +175,7 @@ function ChildDetails(){
                     </div>
                 </form>
             </section>
-            <section className="container-1">
+            <section className="container-4">
                 <h3>{firstname}'s Files</h3>
                 <table>
                     <tr>

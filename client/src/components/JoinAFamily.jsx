@@ -47,7 +47,7 @@ function JoinAFamily() {
 
     return (
         <section className="section-title">
-            <h1 className="title">Joining A Family</h1>
+            <h1>Joining A Family</h1>
             <h2 className="title-h2">Please wait while we add you to the family. Welcome!</h2>
         </section>
     );

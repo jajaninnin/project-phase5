@@ -386,9 +386,9 @@ function NewChild({isEdit = false}) {
                         />
                     </div>
                 </div>
-            <div>
-                <button className="submit-button">{!!childToEdit ? 'Submit Changes' : 'Submit New child' }</button>
-            </div>
+                <div>
+                    <button className="submit-button">{!!childToEdit ? 'Submit Changes' : 'Submit New child' }</button>
+                </div>
             </form>
             <Link to={`/children/${id}`}><button className="submit-button">Cancel</button></Link>
             <Link to='/children'><button className="submit-button">Back to All children</button></Link>

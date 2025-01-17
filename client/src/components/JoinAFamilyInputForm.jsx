@@ -12,8 +12,8 @@ function JoinAFamilyInputForm() {
     return (
         <>
             <section className="section-title">
-                <h2 className="title">Join A Family</h2>
-                <h3 className="title-h2">To join an existing family, ask someone in that family for their invite code, and put it in here!</h3>
+                <h1>Join A Family</h1>
+                <h2 className="title-h2">To join an existing family, ask someone in that family for their invite code, and put it in here!</h2>
             </section>
             <section>
                 <div className="row">

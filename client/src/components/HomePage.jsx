@@ -10,10 +10,10 @@ function Home() {
     return (
         <div className="home">
             <section className="section-title">
-                <h1 className="title">ParentPortal</h1>
+                <h1>FamilyHub</h1>
                 <h2 className="title-h2">your new co-parenting tool</h2>
             </section>
-            <div className="container-1">
+            <div className="container-4">
                 <div className="content">
                     <h2 className="section-header">Parenting made easy</h2>
                     <p>some text here</p>
@@ -38,7 +38,7 @@ function Home() {
                     <Link to='/events'><button className="submit-button">See all my Events</button></Link>
                 </div>
             </div>
-            <div className="container-1">
+            <div className="container-4">
                 <div className="content">
                     <h2 className="section-header">Keep track of all your children/pets</h2>
                     <p>some text here</p>

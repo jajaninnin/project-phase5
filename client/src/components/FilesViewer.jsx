@@ -45,12 +45,12 @@ function Files() {
     return (
         <div>
             <h2>My child's Files</h2>
-            <section>
+            <section className="container-3">
                 {files && (
                     <DocViewer className="doc-viewer" documents={filesForDocViewer} onDocumentChange={handleDocumentChange} />
                 )}
             </section>
-            <section>
+            <section className="container-2">
                 <Link to={`/children/${id}`}><button className="submit-button">Back to Child's page</button></Link>
                 <button className="submit-button" onClick={() => handleRemoveFile()}>Delete file</button>
             </section>

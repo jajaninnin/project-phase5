@@ -1,5 +1,5 @@
 body {
-  font-family: 'Georgia', sans-serif;
+  font-family: 'Garamond', sans-serif;
   margin-left: 0;
   margin-right: 0;
 }
@@ -7,18 +7,31 @@ body {
 /* ========================
       HOME PAGE
 =========================== */
+.section-title {
+  background: url('/Users/janinepamintuan/Development/code/phase-4/project-phase5/client/public/house.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  min-height: 40vh;
+}
 
-.home h1 {
+h1 {
   font-size: 120px;
-  color: #491a9f;
+  color: #bc9cf6;
   text-align: center;
   word-spacing: 15px;
   margin-bottom: 50px;
+  text-shadow: 2px 2px rgb(1, 1, 8);
+}
+
+.title-h2 {
+  color: rgb(127, 141, 227);
+  text-shadow: 2px 2px rgb(1, 1, 8);
 }
 
 h2 {
   font-size: 30px;
-  color: black;
+  color: rgb(0, 0, 0);
   text-align: center;
 }
 
@@ -54,6 +67,7 @@ h2 {
   align-items: center;
   justify-content: space-between;
   margin-bottom: 20px;
+  margin-top: 0;
   /* overflow: hidden;
   flex-direction: column;
   vertical-align: baseline; */
@@ -215,25 +229,35 @@ h2 {
   border-radius: 5px;
   background-color: rgb(219, 223, 220);
   width: 100%;
-  margin: 0 auto;
+  margin: 0 auto 10px auto;
   padding: 30px;
   max-width: 1300px;
+  padding-bottom: 20px;
 }
 
 .container-2 {
   border-radius: 5px;
   background-color: #faf7f1;
-  width: 100%;
-  margin: auto;
+  width: 99%;
+  margin: 0 auto 10px auto;
   padding: 30px;
   max-width: 1300px;
 }
 
 .container-3 {
   border-radius: 5px;
-  background-color: white;
-  width: 100%;
-  margin: auto;
+  background-color: rgb(248, 243, 243);
+  width: 95%;
+  margin: 0 auto 10px auto;
+  padding: 30px;
+  max-width: 1300px;
+}
+
+.container-4 {
+  border-radius: 5px;
+  background-color: rgb(243, 243, 248);
+  width: 95%;
+  margin: 0 auto 10px auto;
   padding: 30px;
   max-width: 1300px;
 }
