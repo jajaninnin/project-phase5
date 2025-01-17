@@ -1,9 +1,12 @@
 import React from "react";
 import { Link, useParams, useNavigate, useOutletContext } from "react-router-dom";
+import { useUser } from "./Adult";
+import { fetchData } from "./utils/fetchData";
 
 function FamilyDetails(){
-    const { family, setFamily } = useOutletContext();
-    const {id} = useParams();
+    const { signedIn } = useUser();
+    const { family, setFamily, setChild, setEvents } = useOutletContext();
+    const { id } = useParams();
     const navigate = useNavigate();
 
     const fam = family.find((fam) => fam?.id?.toString() === id.toString());
@@ -24,8 +27,7 @@ function FamilyDetails(){
         })
         .then(() => {})
         .then(() => {
-            const oldFamily = family.filter((fam) => fam?.id?.toString() !== id?.toString());
-            setFamily([...oldFamily]);
+            fetchData(signedIn, setChild, setFamily, setEvents);
             window.scrollTo({top: 0}); 
             navigate('/families');
         })
@@ -37,8 +39,7 @@ function FamilyDetails(){
         })
         .then(() => {})
         .then(() => {
-            const oldFamily = family.filter((fam) => fam?.id?.toString() !== id?.toString());
-            setFamily([...oldFamily]);
+            fetchData(signedIn, setChild, setFamily, setEvents);
             window.scrollTo({top: 0}); 
             navigate('/families');
         })

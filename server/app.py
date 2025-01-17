@@ -280,30 +280,19 @@ class FamiliesById(Resource):
         except Exception as e:
             print(f'error occured: {e}')
             return make_response({'error': 'Family not found'}, 404)
-        
-    # def patch(self, id):
-    #     try:
-    #         family = db.session.execute(db.select(Family).filter_by(id=id)).scalar_one()
-    #         param = request.json
-    #         for attr in param:
-    #             setattr(family, attr, param['attr'])
-    #         db.session.commit()
-    #         return make_response(family.to_dict(), 202)
-    #     except NoResultFound:
-    #         return make_response({'error': 'Family not found'}, 404)
-    #     except Exception as e:
-    #         print(f'error occured: {e}')
-    #         return make_response({'error': ['validation errors']}, 400)
     
     def delete(self, id):
         try:
             user_id = session.get('user_id')
             if user_id:
                 family = db.session.execute(db.select(Family).filter_by(id=id)).scalar_one()
-                family_memberships = db.session.execute(db.select(FamilyMember).filter_by(member_type="child", family_id=family.id)).scalars()
+                family_memberships_child = db.session.execute(db.select(FamilyMember).filter_by(member_type="child", family_id=family.id)).scalars()
+                family_memberships_adult = db.session.execute(db.select(FamilyMember).filter_by(member_type="adult", family_id=family.id)).scalars()
                 children = db.session.execute(db.select(Child).select_from(FamilyMember).join(Child, db.and_(Child.id == FamilyMember.member_id, FamilyMember.member_type == "child")).filter(FamilyMember.family_id==family.id)).scalars()
                 db.session.delete(family)
-                for family_membership in family_memberships:
+                for family_membership in family_memberships_child:
+                    db.session.delete(family_membership)
+                for family_membership in family_memberships_adult:
                     db.session.delete(family_membership)
                 for child in children:
                     db.session.delete(child)
@@ -313,17 +302,6 @@ class FamiliesById(Resource):
         except Exception as e:
             print(f'error occured: {e}')
             return make_response({'error': 'Family not found'}, 404)
-
-# class FamiliesByUserId(Resource):
-#     def get(self, id):
-#         try:
-#             families = db.session.execute(db.select(Family).filter_by(user_id=id)).scalars()
-#             list_family = [fam.to_dict() for fam in families]
-#             return make_response(list_family)
-#         except Exception as e:
-#             print(f'error occured: {e}')
-#             return make_response({'error': 'Family not found'}, 404)
-# api.add_resource(FamiliesByUserId, '/users-families/<int:id>')
 
 api.add_resource(Families, '/families')
 api.add_resource(FamiliesById, '/families/<int:id>')
@@ -338,17 +316,6 @@ class FamilyMembers(Resource):
         except Exception as e:
             print(f'error occured: {e}')
             return make_response({'error': 'Family not found'}, 404)
-
-# class Files(Resource):
-#     def get(self):
-#         try:
-#             files = db.session.execute(db.select(File)).scalars()
-#             file = [file.to_dict() for file in files]
-#             return make_response(file)
-#         except Exception as e:
-#             print(f'error occured: {e}')
-#             return make_response({'error': 'files not found'}, 404)
-# api.add_resource(Files, '/child-files')
 
 class FilesByChildId(Resource):
     def get(self, id):
@@ -416,18 +383,20 @@ class Events(Resource):
     
     def post(self):
         try:
-            param = request.json
-            new_event = Event(
-                name=param['name'],
-                date=parser.parse(param['date']),
-                start_time=parser.parse(param['start_time']),
-                end_time=parser.parse(param['end_time']),
-                owner=param['owner'],
-                family_id=param['family_id']
-            )
-            db.session.add(new_event)
-            db.session.commit()
-            return make_response(new_event.to_dict(), 201)
+            user_id = session.get('user_id')
+            if user_id:
+                param = request.json
+                new_event = Event(
+                    name=param['name'],
+                    date=parser.parse(param['date']),
+                    start_time=param['start_time'],
+                    end_time=param['end_time'],
+                    owner=param['owner'],
+                    family_id=param['family_id']
+                )
+                db.session.add(new_event)
+                db.session.commit()
+                return make_response(new_event.to_dict(), 201)
         except Exception as e:
             print(f'error occured: {e}')
             return make_response({'error': ['validation errors']}, 400)
@@ -435,20 +404,6 @@ class Events(Resource):
 api.add_resource(Events, '/events')
 
 class EventsById(Resource):      
-    def patch(self, id):
-        try:
-            event = db.session.execute(db.select(Event).filter_by(id=id)).scalar_one()
-            param = request.json
-            for attr in param:
-                setattr(event, attr, parser.parse(param[attr]))
-            db.session.commit()
-            return make_response(event.to_dict(), 202)
-        except NoResultFound:
-            return make_response({'error': 'Event not found'}, 404)
-        except Exception as e:
-            print(f'error occured: {e}')
-            return make_response({'error': ['validation errors']}, 400)
-    
     def delete(self, id):
         try:
             event = db.session.execute(db.select(Event).filter_by(id=id)).scalar_one()
@@ -476,7 +431,6 @@ class JoinFamily(Resource):
                     member_id=user_id,
                     member_type='adult'
                 )
-                print('is this happening a bunch of times 3?')
                 db.session.add(new_family_member)
                 db.session.commit()
                 return make_response(family.to_dict(), 200)

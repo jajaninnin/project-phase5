@@ -89,8 +89,6 @@ class Child(db.Model, SerializerMixin):
     favorites = db.Column(db.String, nullable=False)
     hates = db.Column(db.String, nullable=False)
 
-    # files = db.relationship('File', back_populates='child', cascade='all, delete-orphan')
-
     serialize_rules = ('-families', '-adults', '-familymembers', '-events')
 
     @validates('firstname')
@@ -200,8 +198,6 @@ class Family(db.Model, SerializerMixin):
     name = db.Column(db.String, nullable=False)
     invite_code = db.Column(db.String, nullable=False, unique=True)
 
-    # events = db.relationship('Event', back_populates='family', cascade='all, delete-orphan')
-
     adults_member = db.relationship(
         'Adult',
         secondary='familymembers',
@@ -251,8 +247,6 @@ class File(db.Model, SerializerMixin):
     filedate = db.Column(db.DateTime, nullable=False, default=db.func.now())
     child_id = db.Column(db.Integer, db.ForeignKey('children.id'))
 
-    # child = db.relationship('Child', back_populates='files')
-
     @validates('filename')
     def validate_filename(self, key, value):
         if not value or (len(value) < 1):
@@ -274,10 +268,6 @@ class Event(db.Model, SerializerMixin):
     end_time = db.Column(db.String, nullable=False)
     owner = db.Column(db.Integer, db.ForeignKey('adults.id'))
     family_id = db.Column(db.Integer, db.ForeignKey('families.id'), nullable=False)
-
-    # family = db.relationship('Family', back_populates='events')
-
-    # serialize_rules = ('-adults', '-children', '-familymembers', '-files')
   
     @validates('name')
     def validate_name(self, key, value):
@@ -299,7 +289,7 @@ class Event(db.Model, SerializerMixin):
     
     @validates('end_time')
     def validate_end_time(self, key, value):
-        if not value or (len(value) < 1):
+        if not value:
             raise ValueError('Event must have an end_time')
         return value
   

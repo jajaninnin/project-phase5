@@ -48,7 +48,6 @@ function ChildDetails(){
             const oldFile = childFiles.filter((fil) => fil?.id?.toString() !== fileId?.toString());
             setChildFiles([...oldFile]);
             window.scrollTo({top: 0}); 
-            // navigate('/children');
         })
     }
               
@@ -63,7 +62,6 @@ function ChildDetails(){
         .then((response) => response.json())
         .then((newfile) => {
             setChildFiles([...childFiles, newfile]);
-            // navigate(`/children/${id}`);
         })
         .catch((error) => console.error("Error adding new file", error));
         };

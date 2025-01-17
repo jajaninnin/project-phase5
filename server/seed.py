@@ -180,24 +180,24 @@ with app.app_context():
         event1 = Event(
             name = fake.word(),
             date = fake.future_date(),
-            start_time = f"{random.randint(0, 11)}:{random.randint(0, 59)}:{random.randint(0, 59)}",
-            end_time = f"{random.randint(12, 23)}:{random.randint(0, 59)}:{random.randint(0, 59)}",
+            start_time = f"{random.randint(0, 11)}:{random.randint(0, 59)}",
+            end_time = f"{random.randint(12, 23)}:{random.randint(0, 59)}",
             owner = list_adults[n*2]['id'],
             family_id = list_families[n]['id']
         )
         event2 = Event(
             name = fake.word(),
             date = fake.future_date(),
-            start_time = f"{random.randint(0, 11)}:{random.randint(0, 59)}:{random.randint(0, 59)}",
-            end_time = f"{random.randint(12, 23)}:{random.randint(0, 59)}:{random.randint(0, 59)}",
+            start_time = f"{random.randint(0, 11)}:{random.randint(0, 59)}",
+            end_time = f"{random.randint(12, 23)}:{random.randint(0, 59)}",
             owner = list_adults[n*2]['id'],
             family_id = list_families[n]['id']
         )
         event3 = Event(
             name = fake.word(),
             date = fake.future_date(),
-            start_time = f"{random.randint(0, 11)}:{random.randint(0, 59)}:{random.randint(0, 59)}",
-            end_time = f"{random.randint(12, 23)}:{random.randint(0, 59)}:{random.randint(0, 59)}",
+            start_time = f"{random.randint(0, 11)}:{random.randint(0, 59)}",
+            end_time = f"{random.randint(12, 23)}:{random.randint(0, 59)}",
             owner = list_adults[n*2]['id'],
             family_id = list_families[n]['id']
         )

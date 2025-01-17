@@ -5,8 +5,6 @@ import { useUser } from "./Adult";
 function Home() {
     const { signedIn } = useUser();
 
-    // ParentPortal ChildSync ParentPulse CuddleCloud
-
     return (
         <div className="home">
             <section className="section-title">

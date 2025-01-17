@@ -1,42 +1,51 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useOutletContext, Link, useNavigate, useParams } from "react-router-dom";
 import { useUser } from "./Adult";
+import { fetchData } from "./utils/fetchData";
 
 function NewChild({isEdit = false}) {
-    const { family, child, setChild } = useOutletContext();
+    const { signedIn } = useUser();
+    const { family, child, setChild, setFamily, setEvents } = useOutletContext();
     const { user } = useUser();
     const { id } = useParams();
     const navigate = useNavigate();
+    const [childToEdit, setChildToEdit] = useState();
 
-    const childToEdit = isEdit ? child.find(child => child?.id?.toString() === id?.toString()) : null;
-
-    const oldFamily = family.find((fam) => {
-        return fam.children_member.some((chld_mem) => {
-            return chld_mem?.id.toString() === id;
+    useEffect(() => {
+        const oldFamily = family.find((fam) => {
+            return fam.children_member.some((chld_mem) => {
+                return chld_mem?.id.toString() === id;
+            });
         });
-    });
-    
-    const initialFormData = {
-        firstname: childToEdit?.firstname || '',
-        lastname: childToEdit?.lastname || '',
-        nickname: childToEdit?.nickname || '',
-        birthday: childToEdit?.birthday || '',
-        age: childToEdit?.age || '',
-        allergies: childToEdit?.allergies || '',
-        meds: childToEdit?.meds || '',
-        topsize: childToEdit?.topsize || '',
-        pantssize: childToEdit?.pantssize || '',
-        shoesize: childToEdit?.shoesize || '',
-        dresssize: childToEdit?.dresssize || '',
-        schoollevel: childToEdit?.schoollevel || '',
-        schoolname: childToEdit?.schoolname || '',
-        favorites: childToEdit?.favorites || '',
-        hates: childToEdit?.hates || '',
-        family_id: family?.[0]?.id || '',
-        old_family_id: oldFamily?.id || ''
-    };
 
-    const [ formData, setFormData ] = useState({...initialFormData});
+        const chldToEdit = isEdit ? child.find(child => child?.id?.toString() === id?.toString()) : null;
+
+        setChildToEdit(chldToEdit);
+
+        const initFormData = {
+            firstname: chldToEdit?.firstname || '',
+            lastname: chldToEdit?.lastname || '',
+            nickname: chldToEdit?.nickname || '',
+            birthday: chldToEdit?.birthday || '',
+            age: chldToEdit?.age || '',
+            allergies: chldToEdit?.allergies || '',
+            meds: chldToEdit?.meds || '',
+            topsize: chldToEdit?.topsize || '',
+            pantssize: chldToEdit?.pantssize || '',
+            shoesize: chldToEdit?.shoesize || '',
+            dresssize: chldToEdit?.dresssize || '',
+            schoollevel: chldToEdit?.schoollevel || '',
+            schoolname: chldToEdit?.schoolname || '',
+            favorites: chldToEdit?.favorites || '',
+            hates: chldToEdit?.hates || '',
+            family_id: oldFamily?.id || family?.[0]?.id || '',
+            old_family_id: oldFamily?.id || ''
+        };
+
+        setFormData(initFormData);
+    }, [child, family, id, isEdit]);
+
+    const [ formData, setFormData ] = useState({});
     const [ image, setImage ] = useState(undefined);
 
     const addOrEditchild = (newChild) => {
@@ -61,22 +70,13 @@ function NewChild({isEdit = false}) {
                     body: data
                 })
                 .then((response) => response.json())
-                .then((image) => {
-                    if (image?.filepath) {
-                        newChild.image = image.filepath;
-                    }
-                    const oldchildren = isExistingchild ? 
-                    child.filter((chld) => chld?.id?.toString() !== newChild?.id?.toString()) 
-                    : child;
-                    setChild([...oldchildren, newChild]);
+                .then(() => {
+                    fetchData(signedIn, setChild, setFamily, setEvents);
                     navigate(`/children/${newChild.id}`);
                 })
                 .catch(e => console.error("Error uploading child image", e));
             } else {
-                const oldchildren = isExistingchild ? 
-                child.filter((chld) => chld?.id?.toString() !== newChild?.id?.toString()) 
-                : child;
-                setChild([...oldchildren, newChild]);
+                fetchData(signedIn, setChild, setFamily, setEvents);
                 navigate(`/children/${newChild.id}`);
             }
 
@@ -97,6 +97,17 @@ function NewChild({isEdit = false}) {
         e.preventDefault();
         addOrEditchild(formData);
     };
+
+    const familyId = !childToEdit ? null : family.find(fam => fam.children_member.find(chld_mem => chld_mem.id === childToEdit.id))?.id;
+    const familySorted = !childToEdit ? family : [...family].sort((famA, famB) => {
+        if (famA.id.toString() === familyId.toString()) {
+            return -1;
+        }
+        if (famB.id.toString() === familyId.toString()) {
+            return 1;
+        }
+        return 0;
+    });
 
     return (
         <div>
@@ -363,8 +374,8 @@ function NewChild({isEdit = false}) {
                     </div>
                     <div className="col-75">
                         <select name="family_id" id="family_id" value={formData.family_id} onChange={handleChange}>
-                            {family.map(fam => (
-                                <option key={fam.id} value={fam.id}>{fam.name}</option>
+                            {familySorted.map(fam => (
+                                <option key={`famOption${fam.id}`} value={fam.id}>{fam.name}</option>
                             ))}
                         </select>
                     </div>

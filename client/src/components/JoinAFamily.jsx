@@ -1,10 +1,13 @@
 import React, {useEffect, useRef, useState} from "react";
 import { useNavigate, useOutletContext, useParams } from "react-router-dom";
+import { useUser } from "./Adult";
+import { fetchData } from "./utils/fetchData";
 
 function JoinAFamily() {
     const navigate = useNavigate();
+    const { signedIn } = useUser();
     const { inviteCode } = useParams();
-    const { family, setFamily } = useOutletContext();
+    const { setFamily, setChild, setEvents } = useOutletContext();
     const [familyJoinError, setFamilyJoinError] = useState(false);
     const hasSentJoinFamilyRequest = useRef(false);
     
@@ -16,8 +19,8 @@ function JoinAFamily() {
             })
             .then(resp => resp.json())
             .then(data => {
-                if (!!data) {
-                    setFamily([...family, data]);
+                if (!data?.error) {
+                    fetchData(signedIn, setChild, setFamily, setEvents);
                 } else {
                     console.error('error joining family');
                     setFamilyJoinError(true);

@@ -1,21 +1,12 @@
 import React, { useState } from "react";
-import { Link, useNavigate, useOutletContext, useParams } from "react-router-dom";
+import {  useNavigate, useOutletContext } from "react-router-dom";
+import { useUser } from "./Adult";
 
 function Events() {
-    const { events, setEvents, family, user} = useOutletContext();
-    const { id } = useParams();
+    const { events, setEvents, family } = useOutletContext();
+    const { user } = useUser();
     const navigate = useNavigate();
     const [ sort, setSort ] = useState('asc');
-    const [ newEvent, setNewEvent ] = useState();
-    
-    // if (!events) {
-    //     return (
-    //         <div>
-    //             <h3>Failed to find events</h3>
-    //             <Link to='/families'><button className="submit-button">Back to all families</button></Link>
-    //         </div>
-    //     )
-    // }
 
     function handleRemoveEvent(eventId) {
         fetch(`/events/${eventId}`, {
@@ -30,47 +21,28 @@ function Events() {
                 navigate('/');
             }
         })
-    }
+    };
 
     const handleSortDate = () => {
         setSort((prevSort) => (prevSort === 'asc' ? 'desc' : 'asc'))
     };
 
     const filteredEvents = events?.sort((a, b) => {
-            if (sort === 'asc') {
-                return (new Date(a.date).getTime()) - (new Date(b.date).getTime());
-            } else {
-                return (new Date(b.date).getTime()) - (new Date(a.date).getTime())
-            }
-        });
+        if (sort === 'asc') {
+            return (new Date(a.date).getTime()) - (new Date(b.date).getTime());
+        } else {
+            return (new Date(b.date).getTime()) - (new Date(a.date).getTime())
+        }
+    });
 
     const initialFormData = {
-        name: events?.firstname || '',
-        date: events?.lastname || '',
-        start_time: events?.nickname || '',
-        end_time: events?.birthday || '',
-        owner: events?.owner || user, 
-    }
-
-    const [ formData, setFormData ] = useState({...initialFormData});
-
-    const [date, setDate] = useState();
-    const [time, setTime] = useState();
-
-    const handleDateChange = (e) => {
-        const dateAsJSDate = new Date(e.target.value);
-        if (dateAsJSDate instanceof Date && !isNaN(dateAsJSDate)) {
-            setDate(e.target.value);
-        }
+        name: '',
+        date: '',
+        start_time: '',
+        end_time: '',
     };
 
-    const handleTimeChange = (e) => {
-        const timeFromInput = e.target.value || '';
-        const hoursAsInt = parseInt(timeFromInput.substring(0, 2), 10);
-        if (hoursAsInt >= 9 && hoursAsInt <= 17) {
-            setTime(timeFromInput);
-        } 
-    }
+    const [ formData, setFormData ] = useState({...initialFormData});
 
     const handleChange = (e) => {
         const { name, value} = e.target;
@@ -78,15 +50,16 @@ function Events() {
                 ...formData,
                 [name]: value
         });
-    }
+    };
 
     const addEvent = () => {
-        fetch( `/events/`, {
+        const familyId = family.find(fam => fam.adults_member.find(adult_mem => adult_mem.id === user.id))?.id;
+        fetch( `/events`, {
             method: "POST",
             headers: {
                 "Content-Type": "Application/JSON",
             },
-            body: JSON.stringify()
+            body: JSON.stringify({...formData, owner: user.id, family_id: familyId})
         })
         .then((response) => response.json())
         .then((newEvent) => {
@@ -99,8 +72,6 @@ function Events() {
         e.preventDefault();
         addEvent();
     };
-
-    
 
     return (
         <div>
@@ -137,7 +108,7 @@ function Events() {
                                 name='date'
                                 minLength="1"
                                 value={formData.date}
-                                onChange={handleDateChange}
+                                onChange={handleChange}
                             />
                         </div>
                     </div>
@@ -152,7 +123,7 @@ function Events() {
                                 type='time'
                                 name='start_time'
                                 value={formData.start_time}
-                                onChange={handleTimeChange}
+                                onChange={handleChange}
                             />
                         </div>
                     </div>
@@ -167,7 +138,7 @@ function Events() {
                                 type='time'
                                 name='end_time'
                                 value={formData.end_time}
-                                onChange={handleTimeChange}
+                                onChange={handleChange}
                             />
                         </div>
                     </div>
@@ -175,7 +146,6 @@ function Events() {
                 </form>
             </section>
             <section className="container-3">
-                <Link to={`/families/${id}`}>Back to Family Details</Link>
                  <button className="submit-button" onClick={handleSortDate}>
                     Sort by Date: {sort === 'asc' ? 'Later to Sooner' : 'Sooner to Later' }
                 </button>

@@ -3,7 +3,7 @@ import { useUser } from "./Adult";
 import { Link, Outlet, useOutletContext } from "react-router-dom";
 
 function LoggedInCheck(){
-    const {signedIn } = useUser();
+    const { signedIn } = useUser();
     const context = useOutletContext();
 
     if (!signedIn) {

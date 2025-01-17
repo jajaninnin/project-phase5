@@ -24,7 +24,6 @@ function NewFamily() {
                 navigate('/families');
             } else {
                 setFamilyCreationError(true);
-                // navigate('/families');
             }
         })
         .catch((error) => {
