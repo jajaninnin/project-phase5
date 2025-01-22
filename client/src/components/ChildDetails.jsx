@@ -80,66 +80,68 @@ function ChildDetails(){
                 <img className="single-image" src={image} alt={firstname} />
                 <h2>{firstname} {lastname}, {age} </h2>
                 <table>
-                    <tr>
-                        <td className="cola">First Name</td>
-                        <td className="colb">{firstname}</td>
-                    </tr>
-                    <tr>
-                        <td>Last Name</td>
-                        <td>{lastname}</td>
-                    </tr>
-                    <tr>
-                        <td>Nickname</td>
-                        <td>{nickname}</td>
-                    </tr>
-                    <tr>
-                        <td>Birthday</td>
-                        <td>{birthday}</td>
-                    </tr>
-                    <tr>
-                        <td>Age</td>
-                        <td>{age}</td>
-                    </tr>
-                    <tr>
-                        <td>Allergies</td>
-                        <td>{allergies}</td>
-                    </tr>
-                    <tr>
-                        <td>Medications</td>
-                        <td>{meds}</td>
-                    </tr>
-                    <tr>
-                        <td>Top Size</td>
-                        <td>{topsize}</td>
-                    </tr>
-                    <tr>
-                        <td>Pants Size</td>
-                        <td>{pantssize}</td>
-                    </tr>
-                    <tr>
-                        <td>Dress Size</td>
-                        <td>{dresssize}</td>
-                    </tr>
-                    <tr>
-                        <td>Shoe Size</td>
-                        <td>{shoesize}</td>
-                    </tr>
-                    <tr>
-                        <td>School level</td>
-                        <td>{schoollevel}</td>
-                    </tr>
-                    <tr>
-                        <td>School Name</td>
-                        <td>{schoolname}</td>
-                    </tr>
-                    <tr>
-                        <td>Favorites</td>
-                        <td>{favorites}</td>
-                    </tr>
-                    <tr>
-                        <td>Dislikes</td>
-                        <td>{hates}</td>
-                    </tr>
+                    <tbody>
+                        <tr>
+                            <td className="cola">First Name</td>
+                            <td className="colb">{firstname}</td>
+                        </tr>
+                        <tr>
+                            <td>Last Name</td>
+                            <td>{lastname}</td>
+                        </tr>
+                        <tr>
+                            <td>Nickname</td>
+                            <td>{nickname}</td>
+                        </tr>
+                        <tr>
+                            <td>Birthday</td>
+                            <td>{birthday}</td>
+                        </tr>
+                        <tr>
+                            <td>Age</td>
+                            <td>{age}</td>
+                        </tr>
+                        <tr>
+                            <td>Allergies</td>
+                            <td>{allergies}</td>
+                        </tr>
+                        <tr>
+                            <td>Medications</td>
+                            <td>{meds}</td>
+                        </tr>
+                        <tr>
+                            <td>Top Size</td>
+                            <td>{topsize}</td>
+                        </tr>
+                        <tr>
+                            <td>Pants Size</td>
+                            <td>{pantssize}</td>
+                        </tr>
+                        <tr>
+                            <td>Dress Size</td>
+                            <td>{dresssize}</td>
+                        </tr>
+                        <tr>
+                            <td>Shoe Size</td>
+                            <td>{shoesize}</td>
+                        </tr>
+                        <tr>
+                            <td>School level</td>
+                            <td>{schoollevel}</td>
+                        </tr>
+                        <tr>
+                            <td>School Name</td>
+                            <td>{schoolname}</td>
+                        </tr>
+                        <tr>
+                            <td>Favorites</td>
+                            <td>{favorites}</td>
+                        </tr>
+                        <tr>
+                            <td>Dislikes</td>
+                            <td>{hates}</td>
+                        </tr>
+                        </tbody>
                 </table>
                 <Link to='/children'><button className="submit-button">Back to all children</button></Link>
             </section>
@@ -176,22 +178,26 @@ function ChildDetails(){
             <section className="container-4">
                 <h3>{firstname}'s Files</h3>
                 <table>
-                    <tr>
-                        <th>File Name</th>
-                        <th>Date Uploaded</th>
-                        <th>Open File</th>
-                        <th>Delete File</th>
-                    </tr>
-                    {!!childFiles && childFiles.map((files, index) => (
-                        <Fragment key={`${files.id}_${index}`}>
+                    <thead>
                         <tr>
-                            <td>{files.filename}</td>
-                            <td>{files.filedate}</td>
-                            <td><Link to={`/files/${id}`}>View File</Link></td>
-                            <td><button className="submit-button" onClick={() => handleRemoveFile(files.id)}>Delete file</button></td>
-                            </tr>
-                        </Fragment>
-                    ))}
+                            <th>File Name</th>
+                            <th>Date Uploaded</th>
+                            <th>Open File</th>
+                            <th>Delete File</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {!!childFiles && childFiles.map((files, index) => (
+                            <Fragment key={`${files.id}_${index}`}>
+                            <tr>
+                                <td>{files.filename}</td>
+                                <td>{files.filedate}</td>
+                                <td><Link to={`/files/${id}`}>View File</Link></td>
+                                <td><button className="submit-button" onClick={() => handleRemoveFile(files.id)}>Delete file</button></td>
+                                </tr>
+                            </Fragment>
+                        ))}
+                    </tbody>
                 </table>
             </section>
         </div>

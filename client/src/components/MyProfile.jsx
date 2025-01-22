@@ -40,20 +40,24 @@ function MyProfile(isEdit = false){
                             <p>Adults:</p>
                                 <div>
                                     <table>
-                                        <tr>
-                                            <th>Adults</th>
-                                            <th>Children</th>
-                                        </tr>
-                                        <tr>
-                                            <td>{fam.adults_member.map(adult => (
-                                                <p>{`${adult.firstname} ${adult.lastname}, ${adult.role}`}</p>
-                                                ))}
-                                            </td>
-                                            <td>{fam.children_member.map(child => (
-                                                <p>{`${child.firstname} ${child.lastname}, ${child.age}`}</p>
-                                                ))}
-                                            </td>
-                                        </tr>
+                                        <thead>
+                                            <tr>
+                                                <th>Adults</th>
+                                                <th>Children</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>{fam.adults_member.map(adult => (
+                                                    <p key={adult.id}>{`${adult.firstname} ${adult.lastname}, ${adult.role}`}</p>
+                                                    ))}
+                                                </td>
+                                                <td>{fam.children_member.map(child => (
+                                                    <p key={child.id}>{`${child.firstname} ${child.lastname}, ${child.age}`}</p>
+                                                    ))}
+                                                </td>
+                                            </tr>
+                                        </tbody>
                                     </table>
                                 </div>
                         </section>

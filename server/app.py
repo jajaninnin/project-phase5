@@ -306,17 +306,6 @@ class FamiliesById(Resource):
 api.add_resource(Families, '/families')
 api.add_resource(FamiliesById, '/families/<int:id>')
 
-
-class FamilyMembers(Resource):
-    def get(self):
-        try:
-            fam_members = db.session.execute(db.select(FamilyMember)).scalars()
-            list_fammem = [mem.to_dict() for mem in fam_members]
-            return make_response(list_fammem)
-        except Exception as e:
-            print(f'error occured: {e}')
-            return make_response({'error': 'Family not found'}, 404)
-
 class FilesByChildId(Resource):
     def get(self, id):
         try:

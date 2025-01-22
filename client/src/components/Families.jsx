@@ -26,7 +26,7 @@ function Families() {
                     )
                 )) :
                 (
-                    <section>
+                    <section className="container-3">
                         <p>No families found, please join one or create a new family!</p>
                     </section>
                 )}

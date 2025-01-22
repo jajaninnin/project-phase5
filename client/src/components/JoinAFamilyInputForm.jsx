@@ -15,7 +15,7 @@ function JoinAFamilyInputForm() {
                 <h1>Join A Family</h1>
                 <h2 className="title-h2">To join an existing family, ask someone in that family for their invite code, and put it in here!</h2>
             </section>
-            <section>
+            <section className="container-2">
                 <div className="row">
                     <div className="col-25">
                         <label htmlFor="firstname">Invite Code</label>

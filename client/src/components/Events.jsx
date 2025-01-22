@@ -63,6 +63,7 @@ function Events() {
         .then((response) => response.json())
         .then((newEvent) => {
             setEvents([...events, newEvent]);
+            setFormData({...initialFormData})
         })
         .catch((error) => console.error("Error adding new event", error));
         };
@@ -145,21 +146,23 @@ function Events() {
                         <th>Delete Event</th>
                     </tr>
                 </thead>
-                {filteredEvents.map((evt) => {
-                    const owner = family
-                        ?.find(fam => fam?.id?.toString() === evt?.family_id?.toString())
-                        ?.adults_member
-                        ?.find(adult => adult?.id?.toString() === evt?.owner?.toString());
-                    return (
-                        <tr key={evt.id}>
-                            <td>{evt.name}</td>
-                            <td>{evt.date}</td>
-                            <td>{evt.time}</td>
-                            <td>{`${owner?.firstname} ${owner?.lastname}`}</td>
-                            <td><button className="submit-button" onClick={() => handleRemoveEvent(evt.id)}>Delete event</button></td>
-                        </tr>
-                        )
-                })}
+                <tbody>
+                    {filteredEvents.map((evt) => {
+                        const owner = family
+                            ?.find(fam => fam?.id?.toString() === evt?.family_id?.toString())
+                            ?.adults_member
+                            ?.find(adult => adult?.id?.toString() === evt?.owner?.toString());
+                        return (
+                            <tr key={evt.id}>
+                                <td>{evt.name}</td>
+                                <td>{evt.date}</td>
+                                <td>{evt.time}</td>
+                                <td>{`${owner?.firstname} ${owner?.lastname}`}</td>
+                                <td><button className="submit-button" onClick={() => handleRemoveEvent(evt.id)}>Delete event</button></td>
+                            </tr>
+                            )
+                    })}
+                </tbody>
             </table>
             </section>
         </div>

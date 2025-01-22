@@ -33,11 +33,11 @@ function Header() {
 
     return(
         <header className="header">
-            <span className="title-nav">Parently</span>
+            <span className="title-nav">FamilyHub</span>
             <span className="headerlinks">
                 <NavLink className="headerlink" to='/'>Home</NavLink>
                 <NavLink className="headerlink" to='/families'>Family</NavLink>
-                <NavLink className="headerlink" to='/children'>Child</NavLink>
+                <NavLink className="headerlink" to='/children'>Children</NavLink>
                 <NavLink className="headerlink" to='/events'>Events</NavLink>
                 <NavLink className="headerlink" to='/my-profile'>My Profile</NavLink>
                 {!signedIn ? 

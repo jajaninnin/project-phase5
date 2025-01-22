@@ -42,8 +42,8 @@ function JoinAFamily() {
 
     if (familyJoinError) {
         return (
-            <section>
-                Failed to join family, please try again! Navigating you back to your families!
+            <section className="section-title">
+                <h2>Failed to join family, please try again! Navigating you back to your families!</h2>
             </section>
         );
     }

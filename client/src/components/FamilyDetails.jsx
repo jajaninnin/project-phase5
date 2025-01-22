@@ -72,10 +72,6 @@ function FamilyDetails(){
                     </div>
                 ))}
             </section>
-            <section className="container-4">
-                <h3>Events</h3>
-                <Link to='/events'><button className="submit-button">See all my Events</button></Link>
-            </section>
         </div>
     )
 }
