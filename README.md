@@ -102,7 +102,7 @@ npm start
 
 - GET ```/events```: returns a list of events the user belongs to from the database
 - POST ```/events```: creates a new event within the database
--DELETE ```/events/<id>```: permanently removes an event from the database at a specified id
+- DELETE ```/events/<id>```: permanently removes an event from the database at a specified id
 
 ---
 
@@ -169,6 +169,7 @@ In the future, we can incorporate a dynamic functional calendar to manage all th
 
 ---
 
+## Thank you!
 
 
 
