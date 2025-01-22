@@ -215,7 +215,7 @@ h2 {
   width: calc(100vw - 60px);
   margin: 0 auto 10px auto;
   padding: 30px;
-  max-width: 1300px;
+  max-width: 90%;
   padding-bottom: 20px;
   overflow: auto;
 }
@@ -226,7 +226,7 @@ h2 {
   width: calc(100vw - 60px);
   margin: 0 auto 10px auto;
   padding: 30px;
-  max-width: 1300px;
+  max-width: 90%;
   overflow: auto;
 }
 
@@ -236,7 +236,7 @@ h2 {
   width: calc(100vw - 60px);
   margin: 0 auto 10px auto;
   padding: 30px;
-  max-width: 1300px;
+  max-width: 90%;
   overflow: auto;
 }
 
@@ -246,7 +246,7 @@ h2 {
   width: calc(100vw - 60px);
   margin: 0 auto 10px auto;
   padding: 30px;
-  max-width: 1300px;
+  max-width: 90%;
   overflow: auto;
 }
 
