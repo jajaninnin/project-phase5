@@ -8,7 +8,7 @@ function LoggedInCheck(){
 
     if (!signedIn) {
         return (
-            <section>
+            <section className="container-1">
                 <p>Please sign in or sign up to see all your family's information.</p>
                 <Link to='/signin'><button className="submit-button">Sign In</button></Link>
             </section>

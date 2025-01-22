@@ -9,10 +9,12 @@ function Children() {
    
     return (
         <div>
-            <h2>My Child</h2>
+            <h2>My Children</h2>
                 { signedIn ? (
                     <div>
-                        <Link to='/new-child'><button className="submit-button">Add a new child</button></Link>
+                        <section className="container-2">
+                            <Link to='/new-child'><button className="submit-button">Add a new child</button></Link>
+                        </section>
                         <ul className="cards"> 
                             {child.map((chld, index) => (
                                 <ChildCard
@@ -39,7 +41,7 @@ function Children() {
                         </ul>
                     </div>
                 ) : (
-                    <section>
+                    <section className="container-1">
                         <p>Please sign in to see all your children</p>
                         <Link to='/signin'><button className="submit-button">Sign In</button></Link>
                     </section>

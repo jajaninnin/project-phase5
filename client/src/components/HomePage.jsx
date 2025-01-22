@@ -14,7 +14,10 @@ function Home() {
             <div className="container-4">
                 <div className="content">
                     <h2 className="section-header">Parenting made easy</h2>
-                    <p>some text here</p>
+                    <p>A parenting app designed to make family management easier and more organized.
+                        With features like creating and joining families, adding children, and uploading files for each child, it ensures you stay on top of every detail.
+                        You can also create and view family events, keeping everyone in the loop.
+                        Whether you're organizing a playdate, tracking milestones, or simply sharing important documents, our app helps you manage it all in one place.</p>
                     <p>{signedIn ?
                     <Link to='/logout'><button className="submit-button">Log Out</button></Link>
                     :

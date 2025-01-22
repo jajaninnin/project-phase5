@@ -68,7 +68,7 @@ function SignIn() {
     return (
         <div>
             {signup ? (
-                <section>
+                <section className="container-2">
                     <button className="submit-button" onClick={() => {
                         setSignup(false)
                         setUsername('')
@@ -77,10 +77,10 @@ function SignIn() {
                         setFirstName('')
                         setLastName('')
                         }}>I already have an account</button>
-                    <h2>Register New User</h2>
+                <h2>Register New User</h2>
                 </section>
             ) : (
-                <section>
+                <section className="container-4">
                     <button className="submit-button" onClick={() => {
                         setSignup(true)
                         setUsername('')
@@ -92,110 +92,110 @@ function SignIn() {
                     <h2>Login</h2>
                 </section>
             )}
-            <section>
+            <section className="container-3">
                 <form className="signin" onSubmit={handleSubmit}>
-                <div className="row">
-                    <div className="col-25">
-                        <label htmlFor='username'>Username:</label>
-                    </div>
-                    <div className="col-75">
-                        <input 
-                            required
-                            id='username'
-                            name='username'
-                            type='text'
-                            placeholder="Username"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
-                        />
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col-25">
-                        <label htmlFor='password'>Password:</label>
-                    </div>
-                    <div className="col-75">
-                        <input 
-                            required
-                            id='password'
-                            name='password'
-                            type='password'
-                            placeholder="Password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                        />
-                    </div>
-                </div>
-                    {signup ? (
-                        <div>
-                            <div className="row">
-                                <div className="col-25">
-                                    <label htmlFor='name'>First Name:</label>
-                                </div>
-                                <div className="col-75">
-                                    <input 
-                                        required
-                                        id='name'
-                                        name='firstname'
-                                        type="text"
-                                        placeholder="Your first name"
-                                        value={firstname}
-                                        onChange={(e) => setFirstName(e.target.value)}
-                                    />
-                                </div>
-                            </div>
-                            <div className="row">
-                                <div className="col-25">
-                                    <label htmlFor='name'>Last Name:</label>
-                                </div>
-                                <div className="col-75">
-                                    <input 
-                                        required
-                                        id='name'
-                                        name='lastname'
-                                        type="text"
-                                        placeholder="Your last name"
-                                        value={lastname}
-                                        onChange={(e) => setLastName(e.target.value)}
-                                    />
-                                </div>
-                            </div>
-                            <div className="row">
-                                <div className="col-25">
-                                    <label htmlFor='age'>Age:</label>
-                                </div>
-                                <div className="col-75">
-                                    <input 
-                                    required
-                                    id='age'
-                                    name='age'
-                                    type="number"
-                                    placeholder="Your Age"
-                                    min="18"
-                                    value={age}
-                                    onChange={(e) => setAge(e.target.value)}
-                                    />
-                                </div>
-                            </div>
-                            <div className="row">
-                                <div className="col-25">
-                                    <label htmlFor='name'>Role:</label>
-                                </div>
-                                <div className="col-75">
-                                    <input 
-                                        required
-                                        id='name'
-                                        name='role'
-                                        type="text"
-                                        placeholder="Your role to the Family"
-                                        value={role}
-                                        onChange={(e) => setRole(e.target.value)}
-                                    />
-                                </div>
-                            </div>
+                    <div className="row">
+                        <div className="col-25">
+                            <label htmlFor='username'>Username:</label>
                         </div>
-                        ) : null}
-                    <button className="submit-button" type="submit">Submit</button>
+                        <div className="col-75">
+                            <input 
+                                required
+                                id='username'
+                                name='username'
+                                type='text'
+                                placeholder="Username"
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+                            />
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-25">
+                            <label htmlFor='password'>Password:</label>
+                        </div>
+                        <div className="col-75">
+                            <input 
+                                required
+                                id='password'
+                                name='password'
+                                type='password'
+                                placeholder="Password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
+                        </div>
+                    </div>
+                        {signup ? (
+                            <div>
+                                <div className="row">
+                                    <div className="col-25">
+                                        <label htmlFor='name'>First Name:</label>
+                                    </div>
+                                    <div className="col-75">
+                                        <input 
+                                            required
+                                            id='name'
+                                            name='firstname'
+                                            type="text"
+                                            placeholder="Your first name"
+                                            value={firstname}
+                                            onChange={(e) => setFirstName(e.target.value)}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="col-25">
+                                        <label htmlFor='name'>Last Name:</label>
+                                    </div>
+                                    <div className="col-75">
+                                        <input 
+                                            required
+                                            id='name'
+                                            name='lastname'
+                                            type="text"
+                                            placeholder="Your last name"
+                                            value={lastname}
+                                            onChange={(e) => setLastName(e.target.value)}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="col-25">
+                                        <label htmlFor='age'>Age:</label>
+                                    </div>
+                                    <div className="col-75">
+                                        <input 
+                                        required
+                                        id='age'
+                                        name='age'
+                                        type="number"
+                                        placeholder="Your Age"
+                                        min="18"
+                                        value={age}
+                                        onChange={(e) => setAge(e.target.value)}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="col-25">
+                                        <label htmlFor='name'>Role:</label>
+                                    </div>
+                                    <div className="col-75">
+                                        <input 
+                                            required
+                                            id='name'
+                                            name='role'
+                                            type="text"
+                                            placeholder="Your role to the Family"
+                                            value={role}
+                                            onChange={(e) => setRole(e.target.value)}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            ) : null}
+                        <button className="submit-button" type="submit">Submit</button>
                 </form>
             </section>
         </div>

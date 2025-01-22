@@ -389,8 +389,7 @@ class Events(Resource):
                 new_event = Event(
                     name=param['name'],
                     date=parser.parse(param['date']),
-                    start_time=param['start_time'],
-                    end_time=param['end_time'],
+                    time=param['time'],
                     owner=param['owner'],
                     family_id=param['family_id']
                 )

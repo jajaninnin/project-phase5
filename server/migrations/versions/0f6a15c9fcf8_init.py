@@ -1,8 +1,8 @@
 """init
 
-Revision ID: 4f278a4054a2
+Revision ID: 0f6a15c9fcf8
 Revises: 
-Create Date: 2025-01-14 16:49:37.506298
+Create Date: 2025-01-21 11:49:05.701177
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 from sqlalchemy.dialects import postgresql
 
 # revision identifiers, used by Alembic.
-revision = '4f278a4054a2'
+revision = '0f6a15c9fcf8'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -60,12 +60,11 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(), nullable=False),
     sa.Column('date', sa.Date(), nullable=False),
-    sa.Column('start_time', sa.Time(), nullable=False),
-    sa.Column('end_time', sa.Time(), nullable=False),
-    sa.Column('member_id', sa.Integer(), nullable=False),
-    sa.Column('member_type', postgresql.ENUM('adult', 'child', name='member_types'), nullable=False),
-    sa.Column('family_id', sa.Integer(), nullable=True),
+    sa.Column('time', sa.String(), nullable=False),
+    sa.Column('owner', sa.Integer(), nullable=True),
+    sa.Column('family_id', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['family_id'], ['families.id'], name=op.f('fk_events_family_id_families')),
+    sa.ForeignKeyConstraint(['owner'], ['adults.id'], name=op.f('fk_events_owner_adults')),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('familymembers',

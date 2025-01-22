@@ -39,7 +39,7 @@ function NewFamily() {
                     <h2>Failed to create family, please try again!</h2>
                 </section>
             )}
-            <section>
+            <section className="container-3">
                 <h2>Create a new family:</h2>
                 <div className="row">
                     <div className="col-25">

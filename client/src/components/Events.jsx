@@ -38,8 +38,7 @@ function Events() {
     const initialFormData = {
         name: '',
         date: '',
-        start_time: '',
-        end_time: '',
+        time: '',
     };
 
     const [ formData, setFormData ] = useState({...initialFormData});
@@ -70,7 +69,7 @@ function Events() {
         
     const handleSubmit = (e) => {
         e.preventDefault();
-        addEvent();
+        addEvent(formData);
     };
 
     return (
@@ -114,30 +113,15 @@ function Events() {
                     </div>
                     <div className="row">
                         <div className="col-25">
-                            <label htmlFor="starttime">Start Time</label>
+                            <label htmlFor="time">Time</label>
                         </div>
                         <div className="col-75">
                             <input
                                 required
                                 className="new-event-input"
                                 type='time'
-                                name='start_time'
-                                value={formData.start_time}
-                                onChange={handleChange}
-                            />
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-25">
-                            <label htmlFor="endtime">End Time</label>
-                        </div>
-                        <div className="col-75">
-                            <input
-                                required
-                                className="new-event-input"
-                                type='time'
-                                name='end_time'
-                                value={formData.end_time}
+                                name='time'
+                                value={formData.time}
                                 onChange={handleChange}
                             />
                         </div>
@@ -156,8 +140,7 @@ function Events() {
                     <tr>
                         <th>Event name</th>
                         <th>Event Date</th>
-                        <th>Start Time</th>
-                        <th>End Time</th>
+                        <th>Time</th>
                         <th>Owner</th>
                         <th>Delete Event</th>
                     </tr>
@@ -171,8 +154,7 @@ function Events() {
                         <tr key={evt.id}>
                             <td>{evt.name}</td>
                             <td>{evt.date}</td>
-                            <td>{evt.start_time}</td>
-                            <td>{evt.end_time}</td>
+                            <td>{evt.time}</td>
                             <td>{`${owner?.firstname} ${owner?.lastname}`}</td>
                             <td><button className="submit-button" onClick={() => handleRemoveEvent(evt.id)}>Delete event</button></td>
                         </tr>

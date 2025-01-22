@@ -264,8 +264,7 @@ class Event(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
     date = db.Column(db.Date, nullable=False)
-    start_time = db.Column(db.String, nullable=False)
-    end_time = db.Column(db.String, nullable=False)
+    time = db.Column(db.String, nullable=False)
     owner = db.Column(db.Integer, db.ForeignKey('adults.id'))
     family_id = db.Column(db.Integer, db.ForeignKey('families.id'), nullable=False)
   
@@ -281,15 +280,9 @@ class Event(db.Model, SerializerMixin):
             raise ValueError('Event must have a date')
         return value
     
-    @validates('start_time')
-    def validate_start_time(self, key, value):
+    @validates('time')
+    def validate_time(self, key, value):
         if not value:
-            raise ValueError('Event must have a start time')
+            raise ValueError('Event must have a time')
         return value
-    
-    @validates('end_time')
-    def validate_end_time(self, key, value):
-        if not value:
-            raise ValueError('Event must have an end_time')
-        return value
-  
+      

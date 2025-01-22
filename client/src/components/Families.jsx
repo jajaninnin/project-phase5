@@ -9,8 +9,10 @@ function Families() {
     return (
         <div>
             <h2>My Family</h2>
-            <Link to='/new-family'><button className="submit-button">Create a new family</button></Link>
-            <Link to='/join-a-family'><button className="submit-button">Join a family</button></Link>
+            <section className="container-3">
+                <Link to='/new-family'><button className="submit-button">Create a new family</button></Link>
+                <Link to='/join-a-family'><button className="submit-button">Join a family</button></Link>
+            </section>
             <ul className="cards">{ family.length >= 1 ? 
                 (family.map((fam) => (
                     <FamilyCard 

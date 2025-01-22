@@ -48,7 +48,7 @@ function EditProfile({isEdit = false}) {
 
     return (
         <div>
-            <section>
+            <section className="container-4">
                 <form onSubmit={handleSubmit}>
                     <div className="row">
                         <div className="col-25">
@@ -156,7 +156,7 @@ function EditProfile({isEdit = false}) {
                     <button className="submit-button">Submit Changes</button>
                 </form>
             </section>
-            <section>
+            <section className="container-4">
                 <Link to='/my-profile'><button className="submit-button">Cancel</button></Link>
                 <Link to='/my-profile'><button className="submit-button">Back to My Profile</button></Link>
             </section>
